@@ -5,12 +5,11 @@ import { fetchThreadList, SingleThreadState } from '../store/threads/threadListS
 import { Link } from 'react-router-dom';
 
 
-const ViewThreadsPage: React.FC = () => {
+const ThreadListView: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const threadList = useSelector((state: RootState) => state.threadList);
 
   useEffect(() => {
-    // Fetch threads when the component mounts
     dispatch(fetchThreadList());
   }, [dispatch]);
 
@@ -21,7 +20,7 @@ const ViewThreadsPage: React.FC = () => {
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
       {threadList.threads && (
         <ul>
-          <Link to="/new-thread">
+          <Link to="/threads/new-thread">
             <button>Create New Thread</button>
           </Link>
           {threadList.threads.map((thread: SingleThreadState) => (
@@ -29,6 +28,9 @@ const ViewThreadsPage: React.FC = () => {
               <h3>{thread.title}</h3>
               <p>{thread.body}</p>
               <p>Author: {thread.author.username}</p>
+              <Link to={`/threads/${thread.ID}`}>
+                  <button>View</button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -37,4 +39,4 @@ const ViewThreadsPage: React.FC = () => {
   );
 };
 
-export default ViewThreadsPage;
+export default ThreadListView;
