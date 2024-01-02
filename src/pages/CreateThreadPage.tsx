@@ -12,7 +12,7 @@ const CreateThreadPage: React.FC = () => {
 
   const handleCreateThread = () => {
     dispatch(createThread({ title, body }));
-    navigate('/');
+    navigate('/threads');
   };
 
   return (
