@@ -89,11 +89,12 @@ const threadListSlice = createSlice({
         })
         .addCase(createThread.fulfilled, (state, action) => {
             state.loading = false;
-            // state.threads.push(action.payload); //does nothing for now
+            state.threads.push(action.payload);
+            state.error = null;
         })
         .addCase(createThread.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message ?? null;
+            state.error = action.payload as string;
         });
     },
 });
@@ -109,17 +110,23 @@ export const fetchThreadList = createAsyncThunk(
 
 export const createThread = createAsyncThunk(
     "threadList/createThread",
-    async (payload: { title: string; body: string; }) => {
-        // const response = await fetch("http://localhost:3000/threads", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(payload),
-        // });
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // does nothing for nows
-        // const data = await response.json();
-        return;
+    async (payload: { title: string; body: string; }, thunkAPI) => {
+        const response = await fetch("http://localhost:3000/threads", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.message);
+        }
+
+        const data = await response.json();
+        return data;
     }
 );
 

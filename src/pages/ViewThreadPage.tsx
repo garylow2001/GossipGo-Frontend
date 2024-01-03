@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { SingleThreadState } from '../store/threads/threadListSlice';
 
@@ -11,8 +10,9 @@ const ThreadDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchThread = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/threads/${id}`);
-        setThread(response.data);
+        const response = await fetch(`http://localhost:3000/threads/${id}`);
+        const data = await response.json();
+        setThread(data);
       } catch (error: any) {
         console.error('Error fetching thread:', error.response?.data?.message || 'Unknown error');
         setThread(null);

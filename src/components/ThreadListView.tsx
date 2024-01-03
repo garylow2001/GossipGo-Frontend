@@ -23,6 +23,9 @@ const ThreadListView: React.FC = () => {
           <Link to="/threads/new-thread">
             <button>Create New Thread</button>
           </Link>
+          <Link to="/auth/login">
+            <button>Login</button>
+          </Link>
           {threadList.threads.map((thread: SingleThreadState) => (
             <li key={thread.ID}>
               <h3>{thread.title}</h3>

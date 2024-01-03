@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createThread } from '../store/threads/threadListSlice';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const error = useSelector((state: RootState) => state.threadList.error);
+  const loading = useSelector((state: RootState) => state.threadList.loading);
 
-  const handleCreateThread = () => {
-    dispatch(createThread({ title, body }));
-    navigate('/threads');
+  const handleCreateThread = async () => {
+    const resultAction = await dispatch(createThread({ title, body }));
+    if (createThread.fulfilled.match(resultAction)) {
+      navigate('/threads');
+    }
   };
 
   return (
     <div>
       <h2>Create New Thread</h2>
+      {error && !loading && <p>{error}</p>}
+      {loading && !error && <p>Loading...</p>}
       <form>
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -27,6 +34,9 @@ const CreateThreadPage: React.FC = () => {
           Create Thread
         </button>
       </form>
+      <Link to="/threads">
+            <button>Back</button>
+      </Link>
     </div>
   );
 };
