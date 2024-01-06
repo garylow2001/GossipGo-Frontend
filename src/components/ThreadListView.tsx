@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
-import { fetchThreadList, SingleThreadState } from '../store/threads/threadListSlice';
+import { fetchThreadList, ThreadState } from '../store/threads/threadListSlice';
 import { Link } from 'react-router-dom';
 
 
@@ -26,7 +26,7 @@ const ThreadListView: React.FC = () => {
           <Link to="/auth/login">
             <button>Login</button>
           </Link>
-          {threadList.threads.map((thread: SingleThreadState) => (
+          {threadList.threads.map((thread: ThreadState) => (
             <li key={thread.ID}>
               <h3>{thread.title}</h3>
               <p>{thread.body}</p>

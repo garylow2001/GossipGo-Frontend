@@ -1,38 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CommentList } from "../comments/commentSlice";
 
-export interface Comment {
-    ID: number;
-    CreatedAt: string;
-    UpdatedAt: string;
-    DeletedAt: string | null;
-    body: string;
-    author_id: number;
-    author: {
-        ID: number;
-        CreatedAt: string;
-        UpdatedAt: string;
-        DeletedAt: string | null;
-        username: string;
-    };
-    thread_id: number;
-    thread: {
-        ID: number;
-        CreatedAt: string;
-        UpdatedAt: string;
-        DeletedAt: string | null;
-        author: {
-            ID: number;
-            CreatedAt: string;
-            UpdatedAt: string;
-            DeletedAt: string | null;
-        };
-    };
-    comment_id: number;
-}
-
-export interface Comments extends Array<Comment> {}
-
-export interface SingleThreadState {
+export interface ThreadState {
     ID: number;
     CreatedAt: string;
     UpdatedAt: string;
@@ -47,11 +16,11 @@ export interface SingleThreadState {
         DeletedAt: string | null;
         username: string;
     };
-    comments: Comments;
+    comments: CommentList;
 }
 
 interface ThreadListState {
-    threads: SingleThreadState[];
+    threads: ThreadState[];
     loading: boolean;
     error: string | null;
 }
