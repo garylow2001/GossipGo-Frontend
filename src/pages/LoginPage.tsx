@@ -1,35 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../store/store';
 import { login } from '../store/auth/authSlice';
 import { useSelector } from 'react-redux';
 
+interface LoginFormData {
+    username: string;
+    password: string;
+  }
+
 const LoginPage: React.FC = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState<LoginFormData>({
+        username: '',
+        password: '',
+    });
     const dispatch = useDispatch<AppDispatch>();
     const auth = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
-    };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    }
 
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(login({ username, password }));
-    };
-
-    useEffect(() => {
-        if (auth.isLoggedIn) {
+        const actionResult = await dispatch(login(formData));
+        if (login.fulfilled.match(actionResult)) {
             navigate('/threads');
         }
-    }, [auth.isLoggedIn, navigate]);
+    };
 
     return (
         <div>
@@ -38,12 +41,18 @@ const LoginPage: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Username:
-                    <input type="text" value={username} onChange={handleUsernameChange} />
+                    <input type="text" 
+                    name="username"
+                    value={formData.username} 
+                    onChange={handleChange} />
                 </label>
                 <br />
                 <label>
                     Password:
-                    <input type="password" value={password} onChange={handlePasswordChange} />
+                    <input type="password" 
+                    name="password"
+                    value={formData.password} 
+                    onChange={handleChange} />
                 </label>
                 <br />
                 <button type="submit">Login</button>
@@ -51,6 +60,11 @@ const LoginPage: React.FC = () => {
             <Link to={"/threads"}>
                 <button>
                     Back
+                </button>
+            </Link>
+            <Link to={"/auth/signup"}>
+                <button>
+                    Signup
                 </button>
             </Link>
         </div>

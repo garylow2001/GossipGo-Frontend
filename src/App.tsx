@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import CreateThreadPage from './pages/CreateThreadPage';
 import ViewThreadPage from './pages/ViewThreadPage';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/threads/:id" element={<ViewThreadPage />} />
         </Route>
           <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   );

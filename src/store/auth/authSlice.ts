@@ -20,7 +20,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(login.pending, (state) => {
+        builder.addCase(login.pending, (state) => { // login reducers
             state.loading = true;
             state.isLoggedIn = false;
             state.error = null;
@@ -35,7 +35,19 @@ const authSlice = createSlice({
             state.loading = false;
             state.isLoggedIn = false;
             state.error = action.payload as string;
-        });
+        })
+        .addCase(signup.pending, (state) => { // signup reducers
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(signup.fulfilled, (state, action) => {
+            state.loading = false;
+        })
+        .addCase(signup.rejected, (state, action) => {
+            console.log(action);
+            state.loading = false;
+            state.error = action.payload as string;
+        })
     },
 });
 
@@ -59,6 +71,29 @@ export const login = createAsyncThunk(
 
         return result;
     }
+);
+
+export const signup = createAsyncThunk(
+    "auth/signup",
+    async (data: { username: string; password: string; }, thunkAPI) => {
+        const response = await fetch("http://localhost:3000/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            credentials: 'include',
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            return thunkAPI.rejectWithValue(result.message);
+        }
+
+        return result;
+    }
+
 );
 
 export default authSlice.reducer;
