@@ -15,43 +15,25 @@ export interface Comment {
         username: string;
     };
     thread_id: number;
-    thread: {
-        ID: number;
-        CreatedAt: string;
-        UpdatedAt: string;
-        DeletedAt: string | null;
-        author: {
-            ID: number;
-            CreatedAt: string;
-            UpdatedAt: string;
-            DeletedAt: string | null;
-        };
-    };
     comment_id: number;
 }
 
-export interface CommentList extends Array<Comment> {}
-
-interface CommentListState {
-    comments: CommentList;
+interface CommentState {
+    comment: Comment | null;
     loading: boolean;
     error: string | null;
 }
 
-const initialState: CommentListState = {
-    comments: <CommentList>[],
+const initialState: CommentState = {
+    comment: null,
     loading: false,
     error: null,
-};
+}
 
 const commentSlice = createSlice({
     name: 'comment',
     initialState,
-    reducers: {
-        setComments: (state, action: PayloadAction<CommentList>) => {
-            state.comments = action.payload;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(addComment.pending, (state) => {
             state.loading = true;
@@ -59,7 +41,7 @@ const commentSlice = createSlice({
         })
         .addCase(addComment.fulfilled, (state, action) => {
             console.log(action.payload);
-            state.comments.push(action.payload);
+            state.comment = action.payload;
             state.loading = false;
             state.error = null;
         })
@@ -73,7 +55,7 @@ const commentSlice = createSlice({
             state.error = null;
         })
         .addCase(removeComment.fulfilled, (state, action) => {
-            state.comments = state.comments.filter((comment) => comment.ID !== action.payload);
+            state.comment = action.payload;
             state.loading = false;
             state.error = null;
         })
@@ -87,7 +69,7 @@ const commentSlice = createSlice({
 
 export const addComment = createAsyncThunk(
     'comment/addComment',
-    async ({ id, text }: { id: number, text: string }, thunkAPI) => {
+    async ({ id, text }: { id: string, text: string }, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
             method: 'POST',
             headers: {
@@ -109,7 +91,7 @@ export const addComment = createAsyncThunk(
 
 export const removeComment = createAsyncThunk(
     'comment/removeComment',
-    async (id: number, thunkAPI) => {
+    async (id: string, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/comments/${id}`, {
             method: 'DELETE',
         });
@@ -123,7 +105,5 @@ export const removeComment = createAsyncThunk(
         return result;
     }
 );
-
-export const { setComments } = commentSlice.actions;
 
 export default commentSlice.reducer;

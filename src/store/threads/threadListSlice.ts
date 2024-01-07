@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CommentList } from "../comments/commentSlice";
 
 export interface ThreadState {
     ID: number;
@@ -16,7 +15,6 @@ export interface ThreadState {
         DeletedAt: string | null;
         username: string;
     };
-    comments: CommentList;
 }
 
 interface ThreadListState {
