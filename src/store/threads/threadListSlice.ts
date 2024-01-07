@@ -16,7 +16,6 @@ export interface ThreadState {
         DeletedAt: string | null;
         username: string;
     };
-    comments: CommentList;
 }
 
 interface ThreadListState {

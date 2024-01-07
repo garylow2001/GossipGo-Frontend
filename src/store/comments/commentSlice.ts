@@ -15,18 +15,6 @@ export interface Comment {
         username: string;
     };
     thread_id: number;
-    thread: {
-        ID: number;
-        CreatedAt: string;
-        UpdatedAt: string;
-        DeletedAt: string | null;
-        author: {
-            ID: number;
-            CreatedAt: string;
-            UpdatedAt: string;
-            DeletedAt: string | null;
-        };
-    };
     comment_id: number;
 }
 
@@ -53,7 +41,22 @@ const commentSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(addComment.pending, (state) => {
+        builder.addCase(fetchComments.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchComments.fulfilled, (state, action) => {
+            state.comments = action.payload;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(fetchComments.rejected, (state, action) => {
+            console.log(action);
+            state.comments = [];
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(addComment.pending, (state) => {
             state.loading = true;
             state.error = null;
         })
@@ -85,9 +88,26 @@ const commentSlice = createSlice({
     }
 });
 
+export const fetchComments = createAsyncThunk(
+    'comment/fetchComments',
+    async (id: string, thunkAPI) => {
+        const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.message);
+        }
+
+        const result = await response.json();
+        return result;
+    }
+);
+
 export const addComment = createAsyncThunk(
     'comment/addComment',
-    async ({ id, text }: { id: number, text: string }, thunkAPI) => {
+    async ({ id, text }: { id: string, text: string }, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
             method: 'POST',
             headers: {
@@ -109,7 +129,7 @@ export const addComment = createAsyncThunk(
 
 export const removeComment = createAsyncThunk(
     'comment/removeComment',
-    async (id: number, thunkAPI) => {
+    async (id: string, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/comments/${id}`, {
             method: 'DELETE',
         });

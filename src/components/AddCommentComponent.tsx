@@ -4,11 +4,10 @@ import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
 
 interface AddCommentComponentProps {
-  threadId: number;
-  setUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+  threadId: string;
 }
 
-const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId, setUpdated }) => {
+const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) => {
   const [comment, setComment] = useState('');
   const commentState = useSelector((state: RootState) => state.comments);
   const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +23,6 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId, set
     }))
     .then(() => {
       setComment('');
-      setUpdated(true);
     })
   };
 
