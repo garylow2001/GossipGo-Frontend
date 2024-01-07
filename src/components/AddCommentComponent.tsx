@@ -9,7 +9,7 @@ interface AddCommentComponentProps {
 
 const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) => {
   const [comment, setComment] = useState('');
-  const commentState = useSelector((state: RootState) => state.comments);
+  const commentState = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,6 +29,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
   return (
     <div>
       <h3>Add a Comment</h3>
+      {commentState.loading && <p>Adding comment...</p>}
       {commentState.error && <p>Error adding comment: {commentState.error}</p>}
       <textarea
         rows={4}

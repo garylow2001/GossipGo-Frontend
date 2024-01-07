@@ -37,7 +37,7 @@ const commentListSlice = createSlice({
         })
         .addCase(addComment.fulfilled, (state, action) => {
             state.comments.push(action.payload);
-            state.loading = true;
+            state.loading = false;
             state.error = null;
         })
         .addCase(removeComment.fulfilled, (state, action) => {

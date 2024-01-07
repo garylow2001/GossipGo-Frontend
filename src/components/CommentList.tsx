@@ -12,7 +12,6 @@ const CommentList:React.FC<CommentListProps> = ({threadId}) => {
     const commentListState = useSelector((state: RootState) => state.commentList)
 
     useEffect(() => {
-        console.log(`fetching comments from ${threadId}`);
         dispatch(fetchComments(threadId))
     }, [threadId])
 
