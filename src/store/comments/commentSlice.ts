@@ -18,51 +18,30 @@ export interface Comment {
     comment_id: number;
 }
 
-export interface CommentList extends Array<Comment> {}
-
-interface CommentListState {
-    comments: CommentList;
+interface CommentState {
+    comment: Comment | null;
     loading: boolean;
     error: string | null;
 }
 
-const initialState: CommentListState = {
-    comments: <CommentList>[],
+const initialState: CommentState = {
+    comment: null,
     loading: false,
     error: null,
-};
+}
 
 const commentSlice = createSlice({
     name: 'comment',
     initialState,
-    reducers: {
-        setComments: (state, action: PayloadAction<CommentList>) => {
-            state.comments = action.payload;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchComments.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(fetchComments.fulfilled, (state, action) => {
-            state.comments = action.payload;
-            state.loading = false;
-            state.error = null;
-        })
-        .addCase(fetchComments.rejected, (state, action) => {
-            console.log(action);
-            state.comments = [];
-            state.loading = false;
-            state.error = action.payload as string;
-        })
-        .addCase(addComment.pending, (state) => {
+        builder.addCase(addComment.pending, (state) => {
             state.loading = true;
             state.error = null;
         })
         .addCase(addComment.fulfilled, (state, action) => {
             console.log(action.payload);
-            state.comments.push(action.payload);
+            state.comment = action.payload;
             state.loading = false;
             state.error = null;
         })
@@ -76,7 +55,7 @@ const commentSlice = createSlice({
             state.error = null;
         })
         .addCase(removeComment.fulfilled, (state, action) => {
-            state.comments = state.comments.filter((comment) => comment.ID !== action.payload);
+            state.comment = action.payload;
             state.loading = false;
             state.error = null;
         })
@@ -87,23 +66,6 @@ const commentSlice = createSlice({
         })
     }
 });
-
-export const fetchComments = createAsyncThunk(
-    'comment/fetchComments',
-    async (id: string, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
-            method: 'GET',
-        });
-
-        if (!response.ok) {
-            const errorResponse = await response.json();
-            return thunkAPI.rejectWithValue(errorResponse.message);
-        }
-
-        const result = await response.json();
-        return result;
-    }
-);
 
 export const addComment = createAsyncThunk(
     'comment/addComment',
@@ -143,7 +105,5 @@ export const removeComment = createAsyncThunk(
         return result;
     }
 );
-
-export const { setComments } = commentSlice.actions;
 
 export default commentSlice.reducer;

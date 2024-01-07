@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchComments } from '../store/comments/commentSlice'
 import { AppDispatch, RootState } from '../store/store'
+import { fetchComments } from '../store/comments/commentListSlice'
 
 interface CommentListProps {
     threadId: string
@@ -9,7 +9,7 @@ interface CommentListProps {
 
 const CommentList:React.FC<CommentListProps> = ({threadId}) => {
     const dispatch = useDispatch<AppDispatch>()
-    const commentListState = useSelector((state: RootState) => state.comments)
+    const commentListState = useSelector((state: RootState) => state.commentList)
 
     useEffect(() => {
         console.log(`fetching comments from ${threadId}`);
