@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
 
+// TODO: should not submit empty comment
+
 interface AddCommentComponentProps {
   threadId: string;
 }

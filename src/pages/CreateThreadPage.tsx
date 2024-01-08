@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { createThread } from '../store/threads/threadListSlice';
 import { AppDispatch, RootState } from '../store/store';
 import { useSelector } from 'react-redux';
+import { createThread } from '../store/threads/threadSlice';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
