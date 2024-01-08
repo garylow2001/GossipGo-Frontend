@@ -1,24 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-export interface ThreadState {
-    ID: number;
-    CreatedAt: string;
-    UpdatedAt: string;
-    DeletedAt: string | null;
-    title: string;
-    body: string;
-    author_id: number;
-    author: {
-        ID: number;
-        CreatedAt: string;
-        UpdatedAt: string;
-        DeletedAt: string | null;
-        username: string;
-    };
-}
+import { Thread, createThread, deleteThread, updateThread } from "./threadSlice";
 
 interface ThreadListState {
-    threads: ThreadState[];
+    threads: Thread[];
     loading: boolean;
     error: string | null;
 }
@@ -48,52 +32,40 @@ const threadListSlice = createSlice({
         })
         .addCase(fetchThreadList.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message ?? null;
-        })
-        .addCase(createThread.pending, (state) => {
-            state.loading = true;
-            state.error = null;
+            state.error = action.payload as string;
         })
         .addCase(createThread.fulfilled, (state, action) => {
             state.loading = false;
             state.threads.push(action.payload);
             state.error = null;
         })
-        .addCase(createThread.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload as string;
+        .addCase(updateThread.fulfilled, (state, action) => {
+            const updatedThreadID = action.payload.ID;
+            state.threads = state.threads.map((thread) => {
+                if (thread.ID === updatedThreadID) {
+                    return action.payload;
+                }
+                return thread;
+            });
+        })
+        .addCase(deleteThread.fulfilled, (state, action) => {
+            const deletedThreadID = action.payload.ID;
+            state.threads = state.threads.filter((thread:Thread) => thread.ID !== deletedThreadID);
         });
     },
 });
 
 export const fetchThreadList = createAsyncThunk(
     "threadList/fetchThreadList",
-    async () => {
+    async (_, thunkAPI) => {
         const response = await fetch("http://localhost:3000/threads");
-        const data = await response.json();
-        return data;
-    }
-);
-
-export const createThread = createAsyncThunk(
-    "threadList/createThread",
-    async (payload: { title: string; body: string; }, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/threads", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-            credentials: 'include',
-        });
-
         if (!response.ok) {
             const errorResponse = await response.json();
-            return thunkAPI.rejectWithValue(errorResponse.message);
+            return thunkAPI.rejectWithValue(errorResponse.error);
         }
-
-        const data = await response.json();
-        return data;
+        
+        const result = await response.json();
+        return result;
     }
 );
 
