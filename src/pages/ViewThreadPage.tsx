@@ -15,7 +15,7 @@ const ViewThreadPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.auth.user);
   const threadState = useSelector((state: RootState) => state.thread);
-  const { error, loading, thread } = threadState;
+  const thread = threadState.thread;
 
   useEffect(() => {
     dispatch(fetchThread(id || ''));
@@ -27,8 +27,6 @@ const ViewThreadPage: React.FC = () => {
 
   return (
     <div>
-      {loading && !error && <p>Loading...</p>}
-      {error && !loading && <p>{error}</p>}
       {isEditing 
         ? <UpdateThreadComponent setIsEditing={setIsEditing} />
         : <ViewThreadComponent currentUser={currentUser} setIsEditing={setIsEditing} />

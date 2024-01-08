@@ -17,7 +17,7 @@ export interface ThreadFormData {
 const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditing}) => {
     const dispatch = useDispatch<AppDispatch>()
     const threadState = useSelector((state: RootState) => state.thread)
-    const { error, loading, thread } = threadState
+    const { updateError, loading, thread } = threadState
     const [formData, setFormData] = React.useState<ThreadFormData>(thread ? 
         {
         title: thread.title,
@@ -43,8 +43,8 @@ const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditin
 
     return (
         <div>
-            {loading && !error && <p>Loading...</p>}
-            {error && !loading && <p>{error}</p>}
+            {loading && <p>Loading...</p>}
+            {updateError && <p>Error updating thread: {updateError}</p>}
             {!thread && <p>Thread not found</p>}
             {thread && (
                 <form onSubmit={handleSubmit}>

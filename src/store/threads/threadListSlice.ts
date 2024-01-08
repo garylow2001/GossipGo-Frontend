@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Thread, createThread } from "./threadSlice";
+import { Thread, createThread, deleteThread, updateThread } from "./threadSlice";
 
 interface ThreadListState {
     threads: Thread[];
@@ -32,13 +32,26 @@ const threadListSlice = createSlice({
         })
         .addCase(fetchThreadList.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message ?? null;
+            state.error = action.payload as string;
         })
         .addCase(createThread.fulfilled, (state, action) => {
             state.loading = false;
             state.threads.push(action.payload);
             state.error = null;
         })
+        .addCase(updateThread.fulfilled, (state, action) => {
+            const updatedThreadID = action.payload.ID;
+            state.threads = state.threads.map((thread) => {
+                if (thread.ID === updatedThreadID) {
+                    return action.payload;
+                }
+                return thread;
+            });
+        })
+        .addCase(deleteThread.fulfilled, (state, action) => {
+            const deletedThreadID = action.payload.ID;
+            state.threads = state.threads.filter((thread:Thread) => thread.ID !== deletedThreadID);
+        });
     },
 });
 
