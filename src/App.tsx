@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import ThreadListView from './components/ThreadListView';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CreateThreadPage from './pages/CreateThreadPage';
 import ViewThreadPage from './pages/ViewThreadPage';

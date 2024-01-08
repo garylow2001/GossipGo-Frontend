@@ -11,7 +11,6 @@ import { fetchThread } from '../store/threads/threadSlice';
 
 const ViewThreadPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  // const [thread, setThread] = useState<Thread | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const currentUser = useSelector((state: RootState) => state.auth.user);

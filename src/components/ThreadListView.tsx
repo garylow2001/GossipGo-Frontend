@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchThreadList } from '../store/threads/threadListSlice';
@@ -9,18 +9,9 @@ import { Thread } from '../store/threads/threadSlice';
 const ThreadListView: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const threadList = useSelector((state: RootState) => state.threadList);
-  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    if (!hasFetched) {
-      const abortController = new AbortController();
-      dispatch(fetchThreadList());
-      setHasFetched(true);
-
-      return () => {
-        abortController.abort();
-      };
-    }
+    dispatch(fetchThreadList());
   }, [dispatch]);
 
   return (

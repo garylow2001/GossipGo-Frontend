@@ -13,7 +13,8 @@ const CreateThreadPage: React.FC = () => {
   const error = useSelector((state: RootState) => state.threadList.error);
   const loading = useSelector((state: RootState) => state.threadList.loading);
 
-  const handleCreateThread = async () => {
+  const handleCreateThread = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const resultAction = await dispatch(createThread({ title, body }));
     if (createThread.fulfilled.match(resultAction)) {
       navigate('/threads');
@@ -25,12 +26,12 @@ const CreateThreadPage: React.FC = () => {
       <h2>Create New Thread</h2>
       {error && !loading && <p>{error}</p>}
       {loading && !error && <p>Loading...</p>}
-      <form>
+      <form onSubmit={handleCreateThread}>
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         <label>Body:</label>
         <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-        <button type="button" onClick={handleCreateThread}>
+        <button type="submit">
           Create Thread
         </button>
       </form>

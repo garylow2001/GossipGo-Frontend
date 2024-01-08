@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface Comment {
     ID: number;
@@ -21,13 +21,17 @@ export interface Comment {
 interface CommentState {
     comment: Comment | null;
     loading: boolean;
-    error: string | null;
+    addError: string | null;
+    updateError: string | null;
+    removeError: string | null;
 }
 
 const initialState: CommentState = {
     comment: null,
     loading: false,
-    error: null,
+    addError: null,
+    updateError: null,
+    removeError: null,
 }
 
 const commentSlice = createSlice({
@@ -37,32 +41,46 @@ const commentSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(addComment.pending, (state) => {
             state.loading = true;
-            state.error = null;
+            state.addError = null;
         })
         .addCase(addComment.fulfilled, (state, action) => {
             console.log(action.payload);
             state.comment = action.payload;
             state.loading = false;
-            state.error = null;
+            state.addError = null;
         })
         .addCase(addComment.rejected, (state, action) => {
             console.log(action);
             state.loading = false;
-            state.error = action.payload as string;
+            state.addError = action.payload as string;
+        })
+        .addCase(updateComment.pending, (state) => {
+            state.loading = true;
+            state.updateError = null;
+        })
+        .addCase(updateComment.fulfilled, (state, action) => {
+            state.comment = action.payload;
+            state.loading = false;
+            state.updateError = null;
+        })
+        .addCase(updateComment.rejected, (state, action) => {
+            console.log(action);
+            state.loading = false;
+            state.updateError = action.payload as string;
         })
         .addCase(removeComment.pending, (state) => {
             state.loading = true;
-            state.error = null;
+            state.removeError = null;
         })
         .addCase(removeComment.fulfilled, (state, action) => {
             state.comment = action.payload;
             state.loading = false;
-            state.error = null;
+            state.removeError = null;
         })
         .addCase(removeComment.rejected, (state, action) => {
             console.log(action);
             state.loading = false;
-            state.error = action.payload as string;
+            state.removeError = action.payload as string;
         })
     }
 });
@@ -89,10 +107,32 @@ export const addComment = createAsyncThunk(
     }
 );
 
+export const updateComment = createAsyncThunk(
+    'comment/updateComment',
+    async ({ threadID, commentID , text }: { threadID: string, commentID: string, text: string }, thunkAPI) => {
+        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify( { body: text } ),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
+        }
+
+        const result = await response.json();
+        return result;
+    }
+);
+
 export const removeComment = createAsyncThunk(
     'comment/removeComment',
-    async (id: string, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/comments/${id}`, {
+    async ({ threadID, commentID }: { threadID: string, commentID: string }, thunkAPI) => {
+        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}`, {
             method: 'DELETE',
         });
 
