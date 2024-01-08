@@ -23,7 +23,7 @@ interface CommentState {
     loading: boolean;
     addError: string | null;
     updateError: string | null;
-    removeError: string | null;
+    deleteError: string | null;
 }
 
 const initialState: CommentState = {
@@ -31,7 +31,7 @@ const initialState: CommentState = {
     loading: false,
     addError: null,
     updateError: null,
-    removeError: null,
+    deleteError: null,
 }
 
 const commentSlice = createSlice({
@@ -68,19 +68,19 @@ const commentSlice = createSlice({
             state.loading = false;
             state.updateError = action.payload as string;
         })
-        .addCase(removeComment.pending, (state) => {
+        .addCase(deleteComment.pending, (state) => {
             state.loading = true;
-            state.removeError = null;
+            state.deleteError = null;
         })
-        .addCase(removeComment.fulfilled, (state, action) => {
+        .addCase(deleteComment.fulfilled, (state, action) => {
             state.comment = action.payload;
             state.loading = false;
-            state.removeError = null;
+            state.deleteError = null;
         })
-        .addCase(removeComment.rejected, (state, action) => {
+        .addCase(deleteComment.rejected, (state, action) => {
             console.log(action);
             state.loading = false;
-            state.removeError = action.payload as string;
+            state.deleteError = action.payload as string;
         })
     }
 });
@@ -129,11 +129,12 @@ export const updateComment = createAsyncThunk(
     }
 );
 
-export const removeComment = createAsyncThunk(
-    'comment/removeComment',
+export const deleteComment = createAsyncThunk(
+    'comment/deleteComment',
     async ({ threadID, commentID }: { threadID: string, commentID: string }, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}`, {
             method: 'DELETE',
+            credentials: 'include',
         });
 
         if (!response.ok) {

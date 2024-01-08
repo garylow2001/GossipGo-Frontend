@@ -62,12 +62,12 @@ export const login = createAsyncThunk(
             credentials: 'include',
         });
         
-        const result = await response.json();
-        
         if (!response.ok) {
-            return thunkAPI.rejectWithValue(result.message);
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
         }
-
+        
+        const result = await response.json();
         return result;
     }
 );
@@ -84,12 +84,12 @@ export const signup = createAsyncThunk(
             credentials: 'include',
         });
         
-        const result = await response.json();
-        
         if (!response.ok) {
-            return thunkAPI.rejectWithValue(result.message);
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
         }
-
+        
+        const result = await response.json();
         return result;
     }
 

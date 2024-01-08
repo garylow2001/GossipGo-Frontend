@@ -44,10 +44,15 @@ const threadListSlice = createSlice({
 
 export const fetchThreadList = createAsyncThunk(
     "threadList/fetchThreadList",
-    async () => {
+    async (_, thunkAPI) => {
         const response = await fetch("http://localhost:3000/threads");
-        const data = await response.json();
-        return data;
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
+        }
+        
+        const result = await response.json();
+        return result;
     }
 );
 

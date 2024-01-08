@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Comment, addComment, removeComment, updateComment } from "./commentSlice";
+import { Comment, addComment, deleteComment, updateComment } from "./commentSlice";
 
 export interface CommentList extends Array<Comment> {}
 
@@ -46,11 +46,9 @@ const commentListSlice = createSlice({
                 return comment;
             });
         })
-        .addCase(removeComment.fulfilled, (state, action) => {
-            // state.comments = state.comments.filter((comment) => comment.ID !== action.payload);
-            // CHANGE the above
-            state.loading = true;
-            state.error = null;
+        .addCase(deleteComment.fulfilled, (state, action) => {
+            const deletedCommentID = action.payload.ID;
+            state.comments = state.comments.filter((comment:Comment) => comment.ID !== deletedCommentID);
         });
     }
 });
@@ -64,7 +62,7 @@ export const fetchComments = createAsyncThunk(
 
         if (!response.ok) {
             const errorResponse = await response.json();
-            return thunkAPI.rejectWithValue(errorResponse.message);
+            return thunkAPI.rejectWithValue(errorResponse.error);
         }
 
         const result = await response.json();

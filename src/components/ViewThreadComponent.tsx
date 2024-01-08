@@ -11,6 +11,14 @@ interface ViewThreadComponentProps {
 const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, setIsEditing}) => {
   const threadState = useSelector((state: RootState) => state.thread)
   const { error, loading, thread } = threadState
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this thread?')
+    if (confirmDelete) {
+      // dispatch delete action
+    }
+  }
+  
   return (
     <div>
       {loading && !error && <p>Loading...</p>}
@@ -22,7 +30,10 @@ const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, se
           <p>{thread.body}</p>
           <p>Author: {thread.author.username}</p>
           {currentUser && currentUser.ID === thread.author.ID && (
+            <>
             <button onClick={() => setIsEditing(true)}>Update</button>
+            <button onClick={handleDelete}>Delete</button>
+            </>
           )}
         </>
       )}
