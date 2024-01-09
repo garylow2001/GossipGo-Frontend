@@ -9,7 +9,7 @@ interface ViewCommentComponentProps {
 }
 
 const ViewCommentComponent:React.FC<ViewCommentComponentProps> = ({comment, setEditCommentId}) => {
-    const currentUser = useSelector((state: RootState) => state.auth.user)
+    const currentUser = useSelector((state: RootState) => state.user.currentUser)
     const commentState = useSelector((state: RootState) => state.comment)
     const { deleteError, loading } = commentState
     const dispatch = useDispatch<AppDispatch>()

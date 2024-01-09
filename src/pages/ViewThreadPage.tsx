@@ -13,7 +13,7 @@ const ViewThreadPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((state: RootState) => state.auth.user);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const threadState = useSelector((state: RootState) => state.thread);
   const thread = threadState.thread;
 
