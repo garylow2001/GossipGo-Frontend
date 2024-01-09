@@ -13,7 +13,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
   const [comment, setComment] = useState('');
   const commentState = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, addError } = commentState;
+  const { loading, createError } = commentState;
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -33,7 +33,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
     <div>
       <h3>Add a Comment</h3>
       {loading && <p>Adding comment...</p>}
-      {addError && <p>Error adding comment: {addError}</p>}
+      {createError && <p>Error adding comment: {createError}</p>}
       <textarea
         rows={4}
         cols={50}

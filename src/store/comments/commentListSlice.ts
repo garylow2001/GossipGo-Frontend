@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Comment, addComment, deleteComment, updateComment } from "./commentSlice";
 
 export interface CommentList extends Array<Comment> {}
@@ -20,41 +20,49 @@ const commentListSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchComments.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(fetchComments.fulfilled, (state, action) => {
+        builder.addCase(fetchComments.fulfilled, (state, action) => {
             state.comments = action.payload;
             state.loading = false;
             state.error = null;
         })
         .addCase(fetchComments.rejected, (state, action) => {
-            console.log(action);
             state.comments = [];
-            state.loading = false;
-            state.error = action.payload as string;
         })
         .addCase(addComment.fulfilled, (state, action) => {
             state.comments.push(action.payload);
         })
         .addCase(updateComment.fulfilled, (state, action) => {
-            state.comments = state.comments.map((comment) => {
-                if (comment.ID === action.payload.ID) {
-                    return action.payload;
-                }
-                return comment;
-            });
+            state.comments = state.comments.map((comment) => 
+                comment.ID === action.payload.ID ? action.payload : comment
+            );
         })
         .addCase(deleteComment.fulfilled, (state, action) => {
             const deletedCommentID = action.payload.ID;
             state.comments = state.comments.filter((comment:Comment) => comment.ID !== deletedCommentID);
-        });
+        })
+        .addMatcher((action) => isPending(action) && action.type.startsWith('commentList/'), 
+            (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        )
+        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('commentList/'), 
+            (state) => {
+                state.loading = false;
+                state.error = null;
+            }
+        )
+        .addMatcher((action) => isRejected(action) && action.type.startsWith('commentList/'), 
+            (state, action: PayloadAction<string>) => {
+                state.loading = false;
+                state.error = action.payload;
+            }
+        );
     }
 });
 
 export const fetchComments = createAsyncThunk(
-    'comment/fetchComments',
+    'commentList/fetchComments',
     async (id: string, thunkAPI) => {
         const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
             method: 'GET',
@@ -62,6 +70,7 @@ export const fetchComments = createAsyncThunk(
 
         if (!response.ok) {
             const errorResponse = await response.json();
+            console.log(errorResponse);
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 

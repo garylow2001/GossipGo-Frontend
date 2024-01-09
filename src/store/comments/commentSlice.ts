@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 export interface Comment {
     ID: number;
@@ -21,7 +21,7 @@ export interface Comment {
 interface CommentState {
     comment: Comment | null;
     loading: boolean;
-    addError: string | null;
+    createError: string | null;
     updateError: string | null;
     deleteError: string | null;
 }
@@ -29,7 +29,7 @@ interface CommentState {
 const initialState: CommentState = {
     comment: null,
     loading: false,
-    addError: null,
+    createError: null,
     updateError: null,
     deleteError: null,
 }
@@ -39,49 +39,45 @@ const commentSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(addComment.pending, (state) => {
-            state.loading = true;
-            state.addError = null;
-        })
-        .addCase(addComment.fulfilled, (state, action) => {
-            console.log(action.payload);
+        builder.addCase(addComment.fulfilled, (state, action) => {
             state.comment = action.payload;
-            state.loading = false;
-            state.addError = null;
         })
         .addCase(addComment.rejected, (state, action) => {
-            console.log(action);
-            state.loading = false;
-            state.addError = action.payload as string;
-        })
-        .addCase(updateComment.pending, (state) => {
-            state.loading = true;
-            state.updateError = null;
+            state.createError = action.payload as string;
         })
         .addCase(updateComment.fulfilled, (state, action) => {
             state.comment = action.payload;
-            state.loading = false;
-            state.updateError = null;
         })
         .addCase(updateComment.rejected, (state, action) => {
-            console.log(action);
-            state.loading = false;
             state.updateError = action.payload as string;
-        })
-        .addCase(deleteComment.pending, (state) => {
-            state.loading = true;
-            state.deleteError = null;
         })
         .addCase(deleteComment.fulfilled, (state, action) => {
             state.comment = action.payload;
-            state.loading = false;
-            state.deleteError = null;
         })
         .addCase(deleteComment.rejected, (state, action) => {
-            console.log(action);
-            state.loading = false;
             state.deleteError = action.payload as string;
         })
+        .addMatcher((action) => isPending(action) && action.type.startsWith('comment/'), 
+            (state) => {
+                state.loading = true;
+                state.createError = null;
+                state.updateError = null;
+                state.deleteError = null;
+            }
+        )
+        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('comment/'), 
+            (state) => {
+                state.loading = false;
+                state.createError = null;
+                state.updateError = null;
+                state.deleteError = null;
+            }
+        )
+        .addMatcher((action) => isRejected(action) && action.type.startsWith('comment/'), 
+            (state) => {
+                state.loading = false;
+            }
+        );
     }
 });
 

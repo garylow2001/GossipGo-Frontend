@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Thread, createThread, deleteThread, updateThread } from "./threadSlice";
 
 interface ThreadListState {
@@ -22,36 +22,40 @@ const threadListSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchThreadList.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(fetchThreadList.fulfilled, (state, action) => {
-            state.loading = false;
+        builder.addCase(fetchThreadList.fulfilled, (state, action) => {
             state.threads = action.payload;
         })
-        .addCase(fetchThreadList.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload as string;
-        })
         .addCase(createThread.fulfilled, (state, action) => {
-            state.loading = false;
             state.threads.push(action.payload);
-            state.error = null;
         })
         .addCase(updateThread.fulfilled, (state, action) => {
             const updatedThreadID = action.payload.ID;
-            state.threads = state.threads.map((thread) => {
-                if (thread.ID === updatedThreadID) {
-                    return action.payload;
-                }
-                return thread;
-            });
+            state.threads = state.threads.map((thread) => 
+                thread.ID === updatedThreadID ? action.payload : thread
+            );
         })
         .addCase(deleteThread.fulfilled, (state, action) => {
             const deletedThreadID = action.payload.ID;
             state.threads = state.threads.filter((thread:Thread) => thread.ID !== deletedThreadID);
-        });
+        })
+        .addMatcher((action) => isPending(action) && action.type.startsWith('threadList/'), 
+            (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        )
+        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('threadList/'), 
+            (state) => {
+                state.loading = false;
+                state.error = null;
+            }
+        )
+        .addMatcher((action) => isRejected(action) && action.type.startsWith('threadList/'), 
+            (state, action: PayloadAction<string>) => {
+                state.loading = false;
+                state.error = action.payload;
+            }
+        );
     },
 });
 
