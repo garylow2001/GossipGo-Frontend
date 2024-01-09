@@ -24,7 +24,8 @@ const CommentList:React.FC<CommentListProps> = ({threadId}) => {
             <h2>Comments</h2>
             {loading && <p>Loading comments...</p>}
             {error && <p>Error fetching comments: {error}</p>}
-            {comments.map((comment) => (
+            {comments.length === 0 && <p>No comments yet! Be the first to share your thoughts!</p>}
+            {comments.length > 0 && comments.map((comment) => (
                 <div key={comment.ID} style={{borderBottom: '1px solid #000'}}>
                     {editCommentId === comment.ID
                     ? <UpdateCommentComponent comment={comment} setEditCommentId={setEditCommentId} />

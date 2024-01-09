@@ -19,7 +19,8 @@ const ThreadListView: React.FC = () => {
       <h2>Threads Page</h2>
       {threadList.loading && <p>Loading threads...</p>}
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
-      {threadList.threads && (
+      {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}
+      {threadList.threads.length > 0 && (
         <ul>
           <Link to="/threads/new-thread">
             <button>Create New Thread</button>
