@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { User, getCurrentUser } from "../user/userSlice";
 
 interface AuthState {
@@ -19,34 +19,37 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(login.pending, (state) => { // login reducers
-            state.loading = true;
             state.isLoggedIn = false;
-            state.error = null;
         })
-        .addCase(login.fulfilled, (state, action) => {
-            state.loading = false;
+        .addCase(login.fulfilled, (state) => {
             state.isLoggedIn = true;
         })
-        .addCase(login.rejected, (state, action) => {
-            state.loading = false;
+        .addCase(login.rejected, (state) => {
             state.isLoggedIn = false;
-            state.error = action.payload as string;
         })
-        .addCase(signup.pending, (state) => { // signup reducers
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(signup.fulfilled, (state, action) => {
-            state.loading = false;
-        })
-        .addCase(signup.rejected, (state, action) => {
-            console.log(action);
-            state.loading = false;
-            state.error = action.payload as string;
+        .addCase(logout.fulfilled, (state) => {
+            state.isLoggedIn = false;
         })
         .addCase(getCurrentUser.fulfilled, (state) => {
             state.isLoggedIn = true;
         })
+        .addMatcher((action) => isPending(action) && action.type.startsWith('auth/'),
+            (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        )
+        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('auth/'),
+            (state) => {
+                state.loading = false;
+            }
+        )
+        .addMatcher((action) => isRejected(action) && action.type.startsWith('auth/'),
+            (state, action: PayloadAction<string>) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            }
+        );
     },
 });
 
@@ -59,6 +62,24 @@ export const login = createAsyncThunk(
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: 'include',
+        });
+        
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
+        }
+        
+        const result = await response.json();
+        return result;
+    }
+);
+
+export const logout = createAsyncThunk(
+    "auth/logout",
+    async (_, thunkAPI) => {
+        const response = await fetch("http://localhost:3000/users/logout", {
+            method: "POST",
             credentials: 'include',
         });
         

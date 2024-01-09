@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { fetchThreadList } from '../store/threads/threadListSlice';
 import { Link } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
+import { logout } from '../store/auth/authSlice';
 
 
 const ThreadListView: React.FC = () => {
@@ -17,17 +18,18 @@ const ThreadListView: React.FC = () => {
   return (
     <div>
       <h2>Threads Page</h2>
+      <Link to="/threads/new-thread">
+            <button>Create New Thread</button>
+      </Link>
+      <Link to="/auth/login">
+        <button>Login</button>
+      </Link>
+      <button onClick={() => dispatch(logout())}>Logout</button>
       {threadList.loading && <p>Loading threads...</p>}
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
       {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}
       {threadList.threads.length > 0 && (
         <ul>
-          <Link to="/threads/new-thread">
-            <button>Create New Thread</button>
-          </Link>
-          <Link to="/auth/login">
-            <button>Login</button>
-          </Link>
           {threadList.threads.map((thread: Thread) => (
             <li key={thread.ID}>
               <h3>{thread.title}</h3>
