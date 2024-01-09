@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../store/store';
 import { login } from '../store/auth/authSlice';
 import { useSelector } from 'react-redux';
+import CustomButton from '../components/CustomButton';
 
 interface LoginFormData {
     username: string;
@@ -55,17 +56,17 @@ const LoginPage: React.FC = () => {
                     onChange={handleChange} />
                 </label>
                 <br />
-                <button type="submit">Login</button>
+                <CustomButton type="submit">Login</CustomButton>
             </form>
             <Link to={"/threads"}>
-                <button>
+                <CustomButton>
                     Back
-                </button>
+                </CustomButton>
             </Link>
             <Link to={"/auth/signup"}>
-                <button>
+                <CustomButton>
                     Signup
-                </button>
+                </CustomButton>
             </Link>
         </div>
     );

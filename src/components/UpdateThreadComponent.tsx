@@ -2,8 +2,9 @@ import React from 'react'
 import { updateThread } from '../store/threads/threadSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
+import CustomButton from './CustomButton'
 
-// TODO: Block out the save button if no changes have been made
+// TODO: Block out the save CustomButton if no changes have been made
 
 interface UpdateThreadComponentProps {
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
@@ -62,8 +63,8 @@ const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditin
                         value={formData.body}
                         onChange={handleChange} />
                     </label>
-                    <button type="submit">Save</button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    <CustomButton type="submit">Save</CustomButton>
+                    <CustomButton onClick={() => setIsEditing(false)}>Cancel</CustomButton>
                 </form>
             )}
         </div>

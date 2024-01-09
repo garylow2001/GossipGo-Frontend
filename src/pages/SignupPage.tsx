@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../store/auth/authSlice';
+import CustomButton from '../components/CustomButton';
 
 interface SignupFormData {
   username: string;
@@ -60,12 +61,12 @@ const SignupPage: React.FC = () => {
           />
         </label>
         <br />
-        <button type="submit">Signup</button>
+        <CustomButton type="submit">Signup</CustomButton>
       </form>
       <Link to={'/auth/login'}>
-        <button>
+        <CustomButton>
             Login
-        </button>
+        </CustomButton>
       </Link>
     </div>
   );

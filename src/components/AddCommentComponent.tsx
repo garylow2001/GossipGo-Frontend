@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
+import CustomButton from './CustomButton';
 
 // TODO: should not submit empty comment
 
@@ -42,7 +43,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
         onChange={handleCommentChange}
       ></textarea>
       <br />
-      <button onClick={handleCommentSubmit}>Add Comment</button>
+      <CustomButton onClick={handleCommentSubmit}> Add Comment </CustomButton>
     </div>
   );
 };

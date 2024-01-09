@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 import { createThread } from '../store/threads/threadSlice';
+import CustomButton from '../components/CustomButton';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -31,12 +32,12 @@ const CreateThreadPage: React.FC = () => {
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         <label>Body:</label>
         <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-        <button type="submit">
+        <CustomButton type="submit">
           Create Thread
-        </button>
+        </CustomButton>
       </form>
       <Link to="/threads">
-            <button>Back</button>
+            <CustomButton>Back</CustomButton>
       </Link>
     </div>
   );

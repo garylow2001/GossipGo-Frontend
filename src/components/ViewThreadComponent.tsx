@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../store/store'
 import { useDispatch } from 'react-redux'
 import { deleteThread } from '../store/threads/threadSlice'
 import { useNavigate } from 'react-router-dom'
+import CustomButton from './CustomButton'
 
 interface ViewThreadComponentProps {
     currentUser: User | null
@@ -20,7 +21,7 @@ const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, se
   const handleDelete = async () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this thread?')
     if (confirmDelete) {
-      if (!thread) return; // This should never happen as delete button not shown if thread is null
+      if (!thread) return; // This should never happen as delete CustomButton not shown if thread is null
       const actionResult = await dispatch(deleteThread(thread.ID.toString()))
       if (deleteThread.fulfilled.match(actionResult)) {
         navigate('/threads')
@@ -41,8 +42,8 @@ const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, se
           <p>Author: {thread.author.username}</p>
           {currentUser && currentUser.ID === thread.author.ID && (
             <>
-            <button onClick={() => setIsEditing(true)}>Update</button>
-            <button onClick={handleDelete}>Delete</button>
+            <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>
+            <CustomButton onClick={handleDelete}>Delete</CustomButton>
             </>
           )}
         </>

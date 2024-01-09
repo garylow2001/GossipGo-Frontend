@@ -16,8 +16,8 @@ module.exports = {
           dark: colors.neutral[800],
           ["dark-hover"]: colors.neutral[900],
         }
+      },
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+  }
 }
