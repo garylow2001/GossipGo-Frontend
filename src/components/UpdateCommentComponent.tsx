@@ -3,6 +3,7 @@ import { Comment, updateComment } from '../store/comments/commentSlice'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import { useSelector } from 'react-redux'
+import CustomButton from './CustomButton'
 
 interface UpdateCommentComponentProps {
     comment: Comment
@@ -31,8 +32,8 @@ const UpdateCommentComponent:React.FC<UpdateCommentComponentProps> = ({comment, 
         {updateError && <p>Error updating comment: {updateError}</p>}
         <form onSubmit={handleSubmit}>
             <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-            <button type="submit">Save</button>
-            <button onClick={() => setEditCommentId(null)}>Cancel</button>
+            <CustomButton type="submit">Save</CustomButton>
+            <CustomButton onClick={() => setEditCommentId(null)}>Cancel</CustomButton>
         </form>
         </div>
     )

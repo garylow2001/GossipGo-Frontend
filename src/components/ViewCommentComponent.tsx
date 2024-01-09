@@ -2,6 +2,7 @@ import React from 'react'
 import { Comment, deleteComment,  } from '../store/comments/commentSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
+import CustomButton from './CustomButton'
 
 interface ViewCommentComponentProps {
     comment: Comment
@@ -31,8 +32,8 @@ const ViewCommentComponent:React.FC<ViewCommentComponentProps> = ({comment, setE
             <p>Author: {comment.author.username}</p>
             {currentUser && currentUser.ID === comment.author.ID && (
                 <>
-                <button onClick={() => setEditCommentId(comment.ID)}>Update</button>
-                <button onClick={handleDelete}>Delete</button>
+                <CustomButton onClick={() => setEditCommentId(comment.ID)}>Update</CustomButton>
+                <CustomButton onClick={handleDelete}>Delete</CustomButton>
                 </>
             )}
         </div>

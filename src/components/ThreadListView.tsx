@@ -5,6 +5,7 @@ import { fetchThreadList } from '../store/threads/threadListSlice';
 import { Link } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
 import { logout } from '../store/auth/authSlice';
+import CustomButton from './CustomButton';
 
 
 const ThreadListView: React.FC = () => {
@@ -19,12 +20,12 @@ const ThreadListView: React.FC = () => {
     <div>
       <h2>Threads Page</h2>
       <Link to="/threads/new-thread">
-            <button>Create New Thread</button>
+        <CustomButton>Create New Thread</CustomButton>
       </Link>
       <Link to="/auth/login">
-        <button>Login</button>
+        <CustomButton>Login</CustomButton>
       </Link>
-      <button onClick={() => dispatch(logout())}>Logout</button>
+      <CustomButton onClick={() => dispatch(logout())}>Logout</CustomButton>
       {threadList.loading && <p>Loading threads...</p>}
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
       {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}
@@ -36,7 +37,7 @@ const ThreadListView: React.FC = () => {
               <p>{thread.body}</p>
               <p>Author: {thread.author.username}</p>
               <Link to={`/threads/${thread.ID}`}>
-                  <button>View</button>
+                <CustomButton>View</CustomButton>
               </Link>
             </li>
           ))}

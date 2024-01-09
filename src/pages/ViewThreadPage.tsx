@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../store/store';
 import ViewThreadComponent from '../components/ViewThreadComponent';
 import UpdateThreadComponent from '../components/UpdateThreadComponent';
 import { fetchThread } from '../store/threads/threadSlice';
+import CustomButton from '../components/CustomButton';
 
 
 const ViewThreadPage: React.FC = () => {
@@ -35,7 +36,7 @@ const ViewThreadPage: React.FC = () => {
       <AddCommentComponent threadId={id || ''} />
       <CommentList threadId={id || ''} />
       <Link to="/threads">
-            <button>Back</button>
+            <CustomButton>Back</CustomButton>
       </Link>
     </div>
   );
