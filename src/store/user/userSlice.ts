@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { login } from "../auth/authSlice";
+import { login, logout } from "../auth/authSlice";
 
 export interface User {
     ID: number;
@@ -41,6 +41,12 @@ const userSlice = createSlice({
         .addCase(login.fulfilled, (state, action) => {
             state.currentUser = action.payload.user;
         })
+        .addCase(login.rejected, (state, action) => {
+            state.currentUser = null;
+        })
+        .addCase(logout.fulfilled, (state) => {
+            state.currentUser = null;
+        });
     },
 });
 
