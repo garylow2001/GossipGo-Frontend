@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 export interface Thread {
     ID: number;
@@ -46,58 +46,51 @@ const threadSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder
-        .addCase(fetchThread.pending, (state) => {
-            state.loading = true;
-            state.fetchError = null;
-        })
-        .addCase(fetchThread.fulfilled, (state, action) => {
-            state.loading = false;
+        builder.addCase(fetchThread.fulfilled, (state, action) => {
             state.thread = action.payload;
         })
         .addCase(fetchThread.rejected, (state, action) => {
-            state.loading = false;
             state.fetchError = action.payload as string;
         })
-        .addCase(createThread.pending, (state) => {
-            state.loading = true;
-            state.createError = null;
-        })
         .addCase(createThread.fulfilled, (state, action) => {
-            state.loading = false;
             state.thread = action.payload;
-            state.createError = null;
         })
         .addCase(createThread.rejected, (state, action) => {
-            state.loading = false;
             state.createError = action.payload as string;
         })
-        .addCase(updateThread.pending, (state) => {
-            state.loading = true;
-            state.updateError = null;
-        })
         .addCase(updateThread.fulfilled, (state, action) => {
-            state.loading = false;
             state.thread = action.payload;
-            state.updateError = null;
         })
         .addCase(updateThread.rejected, (state, action) => {
-            state.loading = false;
             state.updateError = action.payload as string;
-        })
-        .addCase(deleteThread.pending, (state) => {
-            state.loading = true;
-            state.deleteError = null;
         })
         .addCase(deleteThread.fulfilled, (state, action) => {
             state.thread = action.payload;
-            state.loading = false;
-            state.deleteError = null;
         })
         .addCase(deleteThread.rejected, (state, action) => {
-            state.loading = false;
             state.deleteError = action.payload as string;
         })
+        .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'), 
+            (state) => {
+                state.loading = true;
+                state.createError = null;
+                state.updateError = null;
+                state.deleteError = null;
+            }
+        )
+        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('thread/'), 
+            (state) => {
+                state.loading = false;
+                state.createError = null;
+                state.updateError = null;
+                state.deleteError = null;
+            }
+        )
+        .addMatcher((action) => isRejected(action) && action.type.startsWith('thread/'), 
+            (state) => {
+                state.loading = false;
+            }
+        );
     }
 });
 

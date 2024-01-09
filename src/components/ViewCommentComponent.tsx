@@ -15,7 +15,7 @@ const ViewCommentComponent:React.FC<ViewCommentComponentProps> = ({comment, setE
     const dispatch = useDispatch<AppDispatch>()
 
     const handleDelete = () => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this thread?')
+        const confirmDelete = window.confirm('Are you sure you want to delete this comment?')
         if (confirmDelete) {
             const threadID = comment.thread_id.toString()
             const commentID = comment.comment_id.toString()
