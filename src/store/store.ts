@@ -4,10 +4,12 @@ import authReducer from './auth/authSlice';
 import commentReducer from './comments/commentSlice';
 import commentListReducer from './comments/commentListSlice';
 import threadReducer from './threads/threadSlice';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
+        user: userReducer,
         thread: threadReducer,
         threadList: threadListReducer,
         comment: commentReducer,

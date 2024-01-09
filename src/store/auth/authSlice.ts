@@ -1,18 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { User } from "../user/userSlice";
+import { User, getCurrentUser } from "../user/userSlice";
 
 interface AuthState {
     loading: boolean;
     isLoggedIn: boolean;
     error: string | null;
-    user: User | null;
 }
 
 const initialState: AuthState = {
     loading: false,
     isLoggedIn: false,
     error: null,
-    user: null,
 };
 
 const authSlice = createSlice({
@@ -28,7 +26,6 @@ const authSlice = createSlice({
         .addCase(login.fulfilled, (state, action) => {
             state.loading = false;
             state.isLoggedIn = true;
-            state.user = action.payload.user;
         })
         .addCase(login.rejected, (state, action) => {
             state.loading = false;
@@ -46,6 +43,9 @@ const authSlice = createSlice({
             console.log(action);
             state.loading = false;
             state.error = action.payload as string;
+        })
+        .addCase(getCurrentUser.fulfilled, (state) => {
+            state.isLoggedIn = true;
         })
     },
 });
