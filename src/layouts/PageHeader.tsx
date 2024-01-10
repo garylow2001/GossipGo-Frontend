@@ -14,7 +14,8 @@ const PageHeader = () => {
     }
   }
   return (
-    <div className='sticky top-0 z-20 flex gap-10 lg:gap-20 justify-between pt-3 pb-3 px-2 bg-white text-black border-b border-gray-300'>
+    <div className='sticky top-0 z-20 flex gap-10 lg:gap-20 justify-between 
+    pt-3 pb-3 px-2 bg-white text-black border-b border-gray-300 shadow-md'>
       <div className='flex gap-4 items-center flex-shrink-0'>
         BACK NAVIGATION
       </div>
