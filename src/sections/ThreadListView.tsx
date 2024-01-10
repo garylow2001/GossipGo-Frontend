@@ -22,10 +22,6 @@ const ThreadListView: React.FC = () => {
       <Link to="/threads/new-thread">
         <CustomButton>Create New Thread</CustomButton>
       </Link>
-      <Link to="/auth/login">
-        <CustomButton>Login</CustomButton>
-      </Link>
-      <CustomButton onClick={() => dispatch(logout())}>Logout</CustomButton>
       {threadList.loading && <p>Loading threads...</p>}
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
       {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}

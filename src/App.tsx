@@ -19,7 +19,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className='bg-gray-200 hidden-scrollbar'>
+    <div className='bg-gray-100 hidden-scrollbar'>
       <Router>
         <Routes>
           <Route index element={<MainPage />} />
