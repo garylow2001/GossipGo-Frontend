@@ -1,6 +1,5 @@
 import React from 'react'
 import PageHeader from '../layouts/PageHeader'
-import ThreadListView from '../sections/ThreadListView'
 import Sidebar from '../layouts/Sidebar'
 
 interface MainLayoutProps {
@@ -9,11 +8,11 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return (
-        <div className='flex flex-col min-h-screen bg-gray-200'>
+        <div className='min-h-screen flex flex-col relative'>
             <PageHeader />
-            <div className='flex flex-1 overflow-hidden grid-cols-[auto,1fr] flex-grow-1'>
+            <div className='flex flex-1 overflow-hidden'>
                 <Sidebar />
-                <div className='flex-1 flex flex-col sticky top-0 z-10 pb-4 px-8 pt-6'>
+                <div className='flex-1 overflow-y-auto px-8 py-4 ml-32'>
                     {children}
                 </div>
             </div>

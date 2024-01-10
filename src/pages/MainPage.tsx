@@ -1,7 +1,4 @@
-import React from 'react'
-import PageHeader from '../layouts/PageHeader'
 import ThreadListView from '../sections/ThreadListView'
-import Sidebar from '../layouts/Sidebar'
 import MainLayout from '../layouts/MainLayout'
 
 const MainPage = () => {
@@ -10,7 +7,7 @@ const MainPage = () => {
             <div className='bg-gray-300'>
                 CATEGORIES
             </div>
-            <div className='flex-1 overflow-auto'>
+            <div className=''>
                 <ThreadListView />
             </div>
         </MainLayout>

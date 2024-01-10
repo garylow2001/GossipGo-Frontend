@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+    width: 15px;
+}
+
+body:hover::-webkit-scrollbar-thumb,
+html:hover::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 10px;
+}
+
+
+@layer utilities {
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .hidden-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .hidden-scrollbar {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    /* Show scrollbar on hover for Chrome, Safari and Opera */
+    .hidden-scrollbar:hover::-webkit-scrollbar {
+        display: block;
+        width: 10px;
+    }
+
+    /* Style the scrollbar when it's visible */
+    .hidden-scrollbar:hover::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 10px;
+    }
+
+    /* Show scrollbar on hover for IE, Edge and Firefox */
+    .hidden-scrollbar:hover {
+        -ms-overflow-style: scrollbar;
+        /* IE and Edge */
+        scrollbar-width: thin;
+        /* Firefox */
+    }
+}
