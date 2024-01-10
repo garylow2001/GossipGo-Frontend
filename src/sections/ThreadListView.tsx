@@ -5,7 +5,7 @@ import { fetchThreadList } from '../store/threads/threadListSlice';
 import { Link } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
 import { logout } from '../store/auth/authSlice';
-import CustomButton from './CustomButton';
+import CustomButton from '../components/CustomButton';
 
 
 const ThreadListView: React.FC = () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { updateThread } from '../store/threads/threadSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
-import CustomButton from './CustomButton'
+import CustomButton from '../components/CustomButton'
 
 // TODO: Block out the save CustomButton if no changes have been made
 
@@ -15,18 +15,18 @@ export interface ThreadFormData {
     body: string
 }
 
-const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditing}) => {
+const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEditing }) => {
     const dispatch = useDispatch<AppDispatch>()
     const threadState = useSelector((state: RootState) => state.thread)
     const { updateError, loading, thread } = threadState
-    const [formData, setFormData] = React.useState<ThreadFormData>(thread ? 
+    const [formData, setFormData] = React.useState<ThreadFormData>(thread ?
         {
-        title: thread.title,
-        body: thread.body
+            title: thread.title,
+            body: thread.body
         } : {
-        title: '',
-        body: ''
-    })
+            title: '',
+            body: ''
+        })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -38,7 +38,7 @@ const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditin
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (!thread) return // This should be unreachable as the form is not visible if there is no thread
-        dispatch(updateThread({ID: thread.ID, ...formData}))
+        dispatch(updateThread({ ID: thread.ID, ...formData }))
         setIsEditing(false)
     }
 
@@ -52,16 +52,16 @@ const UpdateThreadComponent:React.FC<UpdateThreadComponentProps> = ({setIsEditin
                     <label>
                         Title:
                         <input type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange} />
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange} />
                     </label>
                     <label>
                         Body:
-                        <input type="text" 
-                        name="body"
-                        value={formData.body}
-                        onChange={handleChange} />
+                        <input type="text"
+                            name="body"
+                            value={formData.body}
+                            onChange={handleChange} />
                     </label>
                     <CustomButton type="submit">Save</CustomButton>
                     <CustomButton onClick={() => setIsEditing(false)}>Cancel</CustomButton>

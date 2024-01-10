@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
-import CustomButton from './CustomButton';
+import CustomButton from '../components/CustomButton';
 
 // TODO: should not submit empty comment
 
@@ -25,9 +25,9 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
       text: comment,
       id: threadId,
     }))
-    .then(() => {
-      setComment('');
-    })
+      .then(() => {
+        setComment('');
+      })
   };
 
   return (

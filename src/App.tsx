@@ -19,7 +19,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className='max-h-screen max-w-screen flex flex-col'>
+    <div className='bg-gray-200 hidden-scrollbar'>
       <Router>
         <Routes>
           <Route index element={<MainPage />} />

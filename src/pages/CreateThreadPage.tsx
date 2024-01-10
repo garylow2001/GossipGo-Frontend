@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 import { createThread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
+import MainLayout from '../layouts/MainLayout';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -14,7 +15,7 @@ const CreateThreadPage: React.FC = () => {
   const error = useSelector((state: RootState) => state.threadList.error);
   const loading = useSelector((state: RootState) => state.threadList.loading);
 
-  const handleCreateThread = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleCreateThread = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const resultAction = await dispatch(createThread({ title, body }));
     if (createThread.fulfilled.match(resultAction)) {
@@ -23,7 +24,7 @@ const CreateThreadPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <MainLayout>
       <h2>Create New Thread</h2>
       {error && !loading && <p>{error}</p>}
       {loading && !error && <p>Loading...</p>}
@@ -37,9 +38,9 @@ const CreateThreadPage: React.FC = () => {
         </CustomButton>
       </form>
       <Link to="/threads">
-            <CustomButton>Back</CustomButton>
+        <CustomButton>Back</CustomButton>
       </Link>
-    </div>
+    </MainLayout>
   );
 };
 
