@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import AddCommentComponent from '../components/AddCommentComponent';
-import CommentList from '../components/CommentList';
+import AddCommentComponent from '../sections/AddCommentComponent';
+import CommentList from '../sections/CommentList';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
-import ViewThreadComponent from '../components/ViewThreadComponent';
-import UpdateThreadComponent from '../components/UpdateThreadComponent';
+import ViewThreadComponent from '../sections/ViewThreadComponent';
+import UpdateThreadComponent from '../sections/UpdateThreadComponent';
 import { fetchThread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
+import MainLayout from '../layouts/MainLayout';
 
 
 const ViewThreadPage: React.FC = () => {
@@ -27,8 +28,8 @@ const ViewThreadPage: React.FC = () => {
   }
 
   return (
-    <div>
-      {isEditing 
+    <MainLayout>
+      {isEditing
         ? <UpdateThreadComponent setIsEditing={setIsEditing} />
         : <ViewThreadComponent currentUser={currentUser} setIsEditing={setIsEditing} />
       }
@@ -36,9 +37,9 @@ const ViewThreadPage: React.FC = () => {
       <AddCommentComponent threadId={id || ''} />
       <CommentList threadId={id || ''} />
       <Link to="/threads">
-            <CustomButton>Back</CustomButton>
+        <CustomButton>Back</CustomButton>
       </Link>
-    </div>
+    </MainLayout>
   );
 };
 

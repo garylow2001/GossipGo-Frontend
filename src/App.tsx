@@ -19,7 +19,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className='max-h-screen max-w-screen flex flex-col'>
+    <div className='max-h-screen flex flex-col bg-gray-200'>
       <Router>
         <Routes>
           <Route index element={<MainPage />} />

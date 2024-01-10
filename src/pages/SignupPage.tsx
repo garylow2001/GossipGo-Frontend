@@ -30,7 +30,7 @@ const SignupPage: React.FC = () => {
     e.preventDefault();
     const actionResult = await dispatch(signup(formData));
     if (signup.fulfilled.match(actionResult)) {
-        navigate('/auth/login');
+      navigate('/auth/login');
     }
   };
 
@@ -65,7 +65,7 @@ const SignupPage: React.FC = () => {
       </form>
       <Link to={'/auth/login'}>
         <CustomButton>
-            Login
+          Login
         </CustomButton>
       </Link>
     </div>

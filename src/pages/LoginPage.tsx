@@ -9,7 +9,7 @@ import CustomButton from '../components/CustomButton';
 interface LoginFormData {
     username: string;
     password: string;
-  }
+}
 
 const LoginPage: React.FC = () => {
     const [formData, setFormData] = useState<LoginFormData>({
@@ -42,18 +42,18 @@ const LoginPage: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Username:
-                    <input type="text" 
-                    name="username"
-                    value={formData.username} 
-                    onChange={handleChange} />
+                    <input type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange} />
                 </label>
                 <br />
                 <label>
                     Password:
-                    <input type="password" 
-                    name="password"
-                    value={formData.password} 
-                    onChange={handleChange} />
+                    <input type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange} />
                 </label>
                 <br />
                 <CustomButton type="submit">Login</CustomButton>

@@ -5,14 +5,14 @@ import { AppDispatch, RootState } from '../store/store'
 import { useDispatch } from 'react-redux'
 import { deleteThread } from '../store/threads/threadSlice'
 import { useNavigate } from 'react-router-dom'
-import CustomButton from './CustomButton'
+import CustomButton from '../components/CustomButton'
 
 interface ViewThreadComponentProps {
-    currentUser: User | null
-    setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+  currentUser: User | null
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, setIsEditing}) => {
+const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, setIsEditing }) => {
   const threadState = useSelector((state: RootState) => state.thread)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
@@ -42,8 +42,8 @@ const ViewThreadComponent:React.FC<ViewThreadComponentProps> = ({currentUser, se
           <p>Author: {thread.author.username}</p>
           {currentUser && currentUser.ID === thread.author.ID && (
             <>
-            <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>
-            <CustomButton onClick={handleDelete}>Delete</CustomButton>
+              <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>
+              <CustomButton onClick={handleDelete}>Delete</CustomButton>
             </>
           )}
         </>
