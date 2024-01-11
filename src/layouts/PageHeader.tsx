@@ -1,14 +1,16 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import CustomButton from '../components/CustomButton'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { logout } from '../store/auth/authSlice';
+import ProfileDropDown from '../components/ProfileDropDown';
+import { useSelector } from 'react-redux';
 
 const PageHeader = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isDropDownOpen, setIsDropDownOpen] = React.useState(false);
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const handleNavigateToLogin = () => {
     navigate('/auth/login');
@@ -34,24 +36,45 @@ const PageHeader = () => {
           alt="Logo"
           className="w-20 h-20 ml-5 object-cover object-top rounded-full"
         />
+        <p>
+          Connecting Conversations, Spreading Stories
+        </p>
       </div>
-      <div className='flex items-center'>
-        <div className='relative container'>
-          <img
-            src="/blankprofile.png"
-            alt="Profile"
-            className="w-10 h-10 object-cover rounded-full cursor-pointer"
-            onClick={toggleDropdown}
-          />
-          {isDropDownOpen && (
-            <div className='absolute top-0 right-0 mt-16 mr-5 bg-white rounded-md shadow-md'>
-              <CustomButton onClick={handleNavigateToLogin}>Login</CustomButton>
-              <CustomButton onClick={handleLogout}>Logout</CustomButton>
-            </div>
-          )}
+
+      {!isLoggedIn && (
+        <div className='flex items-center'>
+          <div className='relative container'>
+            <img
+              src="/blankprofile.png"
+              alt="Profile"
+              className="w-10 h-10 object-cover rounded-full cursor-pointer"
+              onClick={handleNavigateToLogin}
+              title='You are logged out. Please log in.'
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+
+      {
+        isLoggedIn && (
+          <div className='flex items-center'>
+            <div className='relative container'>
+              <img
+                src="/blankprofile.png"
+                alt="Profile"
+                className="w-10 h-10 object-cover rounded-full cursor-pointer"
+                onClick={toggleDropdown}
+              />
+              {isDropDownOpen && (
+                <div>
+                  < ProfileDropDown handleLogout={handleLogout} />
+                </div>
+              )}
+            </div>
+          </div>
+        )
+      }
+    </div >
   )
 }
 
