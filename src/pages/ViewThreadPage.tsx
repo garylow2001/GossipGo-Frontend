@@ -33,12 +33,13 @@ const ViewThreadPage: React.FC = () => {
         ? <UpdateThreadComponent setIsEditing={setIsEditing} />
         : <ViewThreadComponent currentUser={currentUser} setIsEditing={setIsEditing} />
       }
-      <h3>Comments</h3>
       <AddCommentComponent threadId={id || ''} />
       <CommentList threadId={id || ''} />
-      <Link to="/threads">
-        <CustomButton>Back</CustomButton>
-      </Link>
+      <div className='flex justify-center'>
+        <Link to="/threads">
+          <CustomButton>Back</CustomButton>
+        </Link>
+      </div>
     </MainLayout>
   );
 };

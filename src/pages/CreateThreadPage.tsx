@@ -42,6 +42,8 @@ const CreateThreadPage: React.FC = () => {
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
+            rows={3}
+            style={{ resize: 'vertical' }}
             className='mt-1 p-2 border border-gray-300 rounded-md w-full'
           />
           <CustomButton type="submit">

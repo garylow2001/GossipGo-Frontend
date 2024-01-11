@@ -1,7 +1,17 @@
-export function formatTime(timeCreatedAt: string, timeUpdatedAt: string | null) {
+export function formatTime(timeCreatedAt: string, timeUpdatedAt: string) {
     const currentTime = new Date();
-    const targetTime = new Date(timeUpdatedAt || timeCreatedAt);
-    const prefix = timeUpdatedAt ? 'Updated:' : 'Created:';
+    let targetTime;
+    let prefix;
+
+    if (timeUpdatedAt !== timeCreatedAt) {
+        // If the timeUpdatedAt is different from timeCreatedAt, then the post has been updated
+        // Else the post has been created and not updated
+        targetTime = new Date(timeUpdatedAt);
+        prefix = 'Updated:';
+    } else {
+        targetTime = new Date(timeCreatedAt);
+        prefix = 'Created:';
+    }
 
     const timeDiff = currentTime.getTime() - targetTime.getTime();
     const minutesDiff = Math.floor(timeDiff / (1000 * 60));

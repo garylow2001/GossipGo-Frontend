@@ -27,13 +27,19 @@ const UpdateCommentComponent: React.FC<UpdateCommentComponentProps> = ({ comment
     }
 
     return (
-        <div>
+        <div className="bg-white p-4 rounded-lg shadow-md mb-4 w-full">
             {loading && <p>Loading...</p>}
             {updateError && <p>Error updating comment: {updateError}</p>}
-            <form onSubmit={handleSubmit}>
-                <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-                <CustomButton type="submit">Save</CustomButton>
-                <CustomButton onClick={() => setEditCommentId(null)}>Cancel</CustomButton>
+            <form onSubmit={handleSubmit} className='w-full p-2'>
+                <textarea
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    className='w-full p-2 border border-gray-300 rounded-md'
+                />
+                <div className="flex mt-2 gap-2">
+                    <CustomButton type="submit">Save</CustomButton>
+                    <CustomButton onClick={() => setEditCommentId(null)}>Cancel</CustomButton>
+                </div>
             </form>
         </div>
     )
