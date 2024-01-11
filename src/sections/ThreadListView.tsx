@@ -31,10 +31,7 @@ const ThreadListView: React.FC = () => {
           {threadList.threads.map((thread: Thread) => (
             <li key={thread.ID}>
               <ThreadCard
-                threadID={thread.ID}
-                username={thread.author.username}
-                title={thread.title}
-                body={thread.body}
+                thread={thread}
               />
             </li>
           ))}
