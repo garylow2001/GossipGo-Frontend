@@ -42,7 +42,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
         placeholder="Type your comment here..."
         value={comment}
         onChange={handleCommentChange}
-        className='w-3/4 p-2 border'
+        className='w-3/4 p-2 border rounded-md'
       ></textarea>
       <br />
       <CustomButton onClick={handleCommentSubmit}> Add Comment </CustomButton>
