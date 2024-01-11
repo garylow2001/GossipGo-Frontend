@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
 import ThreadCard from '../components/ThreadCard';
+import PageTitle from '../components/PageTitle';
 
 
 const ThreadListView: React.FC = () => {
@@ -18,7 +19,7 @@ const ThreadListView: React.FC = () => {
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>
-      <h2 className='mb-4 text-lg font-bold'>Threads Page</h2>
+      <PageTitle>Threads Page</PageTitle>
       <Link to="/threads/new-thread">
         <CustomButton>Create New Thread</CustomButton>
       </Link>

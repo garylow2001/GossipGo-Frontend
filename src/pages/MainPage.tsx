@@ -4,9 +4,7 @@ import MainLayout from '../layouts/MainLayout'
 const MainPage = () => {
     return (
         <MainLayout>
-            <div>
-                <ThreadListView />
-            </div>
+            <ThreadListView />
         </MainLayout>
     )
 }

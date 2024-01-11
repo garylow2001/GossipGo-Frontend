@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { createThread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
 import MainLayout from '../layouts/MainLayout';
+import PageTitle from '../components/PageTitle';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -25,21 +26,32 @@ const CreateThreadPage: React.FC = () => {
 
   return (
     <MainLayout>
-      <h2>Create New Thread</h2>
-      {error && !loading && <p>{error}</p>}
-      {loading && !error && <p>Loading...</p>}
-      <form onSubmit={handleCreateThread}>
-        <label>Title:</label>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <label>Body:</label>
-        <textarea value={body} onChange={(e) => setBody(e.target.value)} />
-        <CustomButton type="submit">
-          Create Thread
-        </CustomButton>
-      </form>
-      <Link to="/threads">
-        <CustomButton>Back</CustomButton>
-      </Link>
+      <div className='flex flex-col items-center justify-top w-full h-full'>
+        <PageTitle>Create New Thread</PageTitle>
+        {error && !loading && <p>{error}</p>}
+        {loading && !error && <p>Loading...</p>}
+        <form onSubmit={handleCreateThread} className='space-y-4 w-full'>
+          <label className='block text-sm font-medium'>Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+          />
+          <label className='block text-sm font-medium'>Body:</label>
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+          />
+          <CustomButton type="submit">
+            Create Thread
+          </CustomButton>
+        </form>
+        <Link to="/threads" className='block mt-4'>
+          <CustomButton>Back</CustomButton>
+        </Link>
+      </div>
     </MainLayout>
   );
 };
