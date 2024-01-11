@@ -25,16 +25,23 @@ const ViewCommentComponent: React.FC<ViewCommentComponentProps> = ({ comment, se
     }
 
     return (
-        <div>
+        <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex flex-col gap-4">
             {loading && <p>Loading...</p>}
             {deleteError && <p>{deleteError}</p>}
+            <div className='flex flex-row items-center'>
+                <img
+                    src="/blankprofile.png"
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full mr-2 object-cover object-top"
+                />
+                <span className="font-medium">{comment.author.username}</span>
+            </div>
             <p>{comment.body}</p>
-            <p>Author: {comment.author.username}</p>
             {currentUser && currentUser.ID === comment.author.ID && (
-                <>
+                <div className="flex gap-2">
                     <CustomButton onClick={() => setEditCommentId(comment.ID)}>Update</CustomButton>
                     <CustomButton onClick={handleDelete}>Delete</CustomButton>
-                </>
+                </div>
             )}
         </div>
     )

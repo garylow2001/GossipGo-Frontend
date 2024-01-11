@@ -28,7 +28,7 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
             body: ''
         })
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -43,28 +43,36 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
     }
 
     return (
-        <div>
+        <div className="bg-white p-4 shadow-md mb-4">
             {loading && <p>Loading...</p>}
             {updateError && <p>Error updating thread: {updateError}</p>}
             {!thread && <p>Thread not found</p>}
             {thread && (
-                <form onSubmit={handleSubmit}>
-                    <label>
+                <form onSubmit={handleSubmit} className='flex flex-col justify-between mb-2'>
+                    <label className='mb-2'>
                         Title:
                         <input type="text"
                             name="title"
                             value={formData.title}
-                            onChange={handleChange} />
+                            onChange={handleChange}
+                            className="border border-gray-300 rounded-md p-2 w-full mt-1"
+                        />
                     </label>
                     <label>
                         Body:
-                        <input type="text"
+                        <textarea
                             name="body"
                             value={formData.body}
-                            onChange={handleChange} />
+                            onChange={handleChange}
+                            rows={4}
+                            style={{ resize: 'vertical' }}
+                            className="border border-gray-300 rounded-md p-2 w-full mt-1"
+                        />
                     </label>
-                    <CustomButton type="submit">Save</CustomButton>
-                    <CustomButton onClick={() => setIsEditing(false)}>Cancel</CustomButton>
+                    <div className="flex gap-2 mt-4">
+                        <CustomButton type="submit">Save</CustomButton>
+                        <CustomButton onClick={() => setIsEditing(false)}>Cancel</CustomButton>
+                    </div>
                 </form>
             )}
         </div>

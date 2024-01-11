@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
 import CustomButton from '../components/CustomButton';
+import PageTitle from '../components/PageTitle';
 
 // TODO: should not submit empty comment
 
@@ -31,8 +32,8 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
   };
 
   return (
-    <div>
-      <h3>Add a Comment</h3>
+    <div className='flex flex-col items-center justify-center p-4'>
+      <PageTitle>Add Comment</PageTitle>
       {loading && <p>Adding comment...</p>}
       {createError && <p>Error adding comment: {createError}</p>}
       <textarea
@@ -41,6 +42,7 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
         placeholder="Type your comment here..."
         value={comment}
         onChange={handleCommentChange}
+        className='w-3/4 p-2 border rounded-md'
       ></textarea>
       <br />
       <CustomButton onClick={handleCommentSubmit}> Add Comment </CustomButton>
