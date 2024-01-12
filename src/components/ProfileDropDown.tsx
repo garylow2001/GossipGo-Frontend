@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { logout } from '../store/auth/authSlice';
@@ -16,9 +16,27 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen }) 
         }
         setIsDropDownOpen(false);
     }
+    const dropDownRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+                setIsDropDownOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, []);
 
     return (
-        <div className='absolute top-0 right-0 mt-12 mr-2 p-2 bg-white rounded-md shadow-md border'>
+        <div
+            className='absolute top-0 right-0 mt-12 mr-2 p-2 bg-white rounded-md shadow-md border'
+            ref={dropDownRef}
+        >
             <div className='flex flex-col' role='list'>
                 <ProfileDropDownElement label='Profile' onClick={() => { }} />
                 <ProfileDropDownElement label='Settings' onClick={() => { }} />

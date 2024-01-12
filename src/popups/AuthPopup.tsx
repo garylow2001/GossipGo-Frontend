@@ -19,6 +19,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onRequestClose }) => {
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
+            shouldCloseOnOverlayClick={true}
             style={{
                 overlay: {
                     zIndex: 9999, // Set a high z-index value
