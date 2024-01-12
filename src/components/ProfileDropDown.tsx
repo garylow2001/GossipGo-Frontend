@@ -1,10 +1,22 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store';
+import { logout } from '../store/auth/authSlice';
 
 interface ProfileDropDownProps {
-    handleLogout: () => void;
+    setIsDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ handleLogout }) => {
+const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen }) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const handleLogout = () => {
+        const confirmLogout = window.confirm('Are you sure you want to logout?');
+        if (confirmLogout) {
+            dispatch(logout());
+        }
+        setIsDropDownOpen(false);
+    }
+
     return (
         <div className='absolute top-0 right-0 mt-12 mr-2 p-2 bg-white rounded-md shadow-md border'>
             <div className='flex flex-col' role='list'>
