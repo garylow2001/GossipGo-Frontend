@@ -4,8 +4,6 @@ import "./index.css";
 
 import CreateThreadPage from './pages/CreateThreadPage';
 import ViewThreadPage from './pages/ViewThreadPage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
 import { getCurrentUser } from './store/user/userSlice';
@@ -28,8 +26,6 @@ const App: React.FC = () => {
             <Route path="/threads/new-thread" element={<CreateThreadPage />} />
             <Route path="/threads/:id" element={<ViewThreadPage />} />
           </Route>
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/signup" element={<SignupPage />} />
         </Routes>
       </Router>
     </div>

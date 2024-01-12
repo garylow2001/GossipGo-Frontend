@@ -4,13 +4,15 @@ import { User, getCurrentUser } from "../user/userSlice";
 interface AuthState {
     loading: boolean;
     isLoggedIn: boolean;
-    error: string | null;
+    loginError: string | null;
+    signupError: string | null;
 }
 
 const initialState: AuthState = {
     loading: false,
     isLoggedIn: false,
-    error: null,
+    loginError: null,
+    signupError: null,
 };
 
 const authSlice = createSlice({
@@ -18,38 +20,44 @@ const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(login.pending, (state) => { // login reducers
+        builder.addCase(login.pending, (state) => {
             state.isLoggedIn = false;
         })
-        .addCase(login.fulfilled, (state) => {
-            state.isLoggedIn = true;
-        })
-        .addCase(login.rejected, (state) => {
-            state.isLoggedIn = false;
-        })
-        .addCase(logout.fulfilled, (state) => {
-            state.isLoggedIn = false;
-        })
-        .addCase(getCurrentUser.fulfilled, (state) => {
-            state.isLoggedIn = true;
-        })
-        .addMatcher((action) => isPending(action) && action.type.startsWith('auth/'),
-            (state) => {
-                state.loading = true;
-                state.error = null;
-            }
-        )
-        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('auth/'),
-            (state) => {
-                state.loading = false;
-            }
-        )
-        .addMatcher((action) => isRejected(action) && action.type.startsWith('auth/'),
-            (state, action: PayloadAction<string>) => {
-                state.loading = false;
-                state.error = action.payload as string;
-            }
-        );
+            .addCase(login.fulfilled, (state) => {
+                state.isLoggedIn = true;
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoggedIn = false;
+                state.loginError = action.payload as string;
+            })
+            .addCase(signup.rejected, (state, action) => {
+                state.signupError = action.payload as string;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.isLoggedIn = false;
+            })
+            .addCase(getCurrentUser.fulfilled, (state) => {
+                state.isLoggedIn = true;
+            })
+            .addMatcher((action) => isPending(action) && action.type.startsWith('auth/'),
+                (state) => {
+                    state.loading = true;
+                    state.loginError = null;
+                    state.signupError = null;
+                }
+            )
+            .addMatcher((action) => isFulfilled(action) && action.type.startsWith('auth/'),
+                (state) => {
+                    state.loading = false;
+                    state.loginError = null;
+                    state.signupError = null;
+                }
+            )
+            .addMatcher((action) => isRejected(action) && action.type.startsWith('auth/'),
+                (state, action: PayloadAction<string>) => {
+                    state.loading = false;
+                }
+            );
     },
 });
 
@@ -64,12 +72,12 @@ export const login = createAsyncThunk(
             body: JSON.stringify(data),
             credentials: 'include',
         });
-        
+
         if (!response.ok) {
             const errorResponse = await response.json();
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
-        
+
         const result = await response.json();
         return result;
     }
@@ -82,12 +90,12 @@ export const logout = createAsyncThunk(
             method: "POST",
             credentials: 'include',
         });
-        
+
         if (!response.ok) {
             const errorResponse = await response.json();
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
-        
+
         const result = await response.json();
         return result;
     }
@@ -104,12 +112,12 @@ export const signup = createAsyncThunk(
             body: JSON.stringify(data),
             credentials: 'include',
         });
-        
+
         if (!response.ok) {
             const errorResponse = await response.json();
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
-        
+
         const result = await response.json();
         return result;
     }

@@ -1,25 +1,25 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { RootState } from '../store/store';
 import ProfileDropDown from '../components/ProfileDropDown';
 import { useSelector } from 'react-redux';
 import PageHeaderLogo from '../components/PageHeaderLogo';
+import AuthPopup from '../popups/AuthPopup';
 
 const PageHeader = () => {
   const [isDropDownOpen, setIsDropDownOpen] = React.useState(false);
-  const navigate = useNavigate();
+  const [isAuthPopupOpen, setisAuthPopupOpen] = React.useState(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-
-  const handleNavigateToLogin = () => {
-    navigate('/auth/login');
-  }
 
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
 
+  const toggleAuthPopup = () => {
+    setisAuthPopupOpen(!isAuthPopupOpen);
+  }
+
   const handleProfileClick = () => {
-    isLoggedIn ? toggleDropdown() : handleNavigateToLogin();
+    isLoggedIn ? toggleDropdown() : toggleAuthPopup();
   }
 
   const profileTitle = isLoggedIn ? 'Profile' : 'Login';
@@ -37,10 +37,15 @@ const PageHeader = () => {
             onClick={handleProfileClick}
             title={profileTitle}
           />
+
           {isDropDownOpen && (
             <div>
               < ProfileDropDown setIsDropDownOpen={setIsDropDownOpen} />
             </div>
+          )}
+
+          {isAuthPopupOpen && (
+            <AuthPopup isOpen={isAuthPopupOpen} onRequestClose={toggleAuthPopup} />
           )}
         </div>
       </div>
