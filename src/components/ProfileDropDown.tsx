@@ -5,9 +5,10 @@ import { logout } from '../store/auth/authSlice';
 
 interface ProfileDropDownProps {
     setIsDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    pageHeaderProfileRef: React.RefObject<HTMLDivElement>;
 }
 
-const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen }) => {
+const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen, pageHeaderProfileRef }) => {
     const dispatch = useDispatch<AppDispatch>();
     const handleLogout = () => {
         const confirmLogout = window.confirm('Are you sure you want to logout?');
@@ -20,7 +21,13 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen }) 
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+            const clickOutsideDropdown = dropDownRef.current && !dropDownRef.current.contains(event.target as Node);
+            const clickOnProfile = pageHeaderProfileRef.current && pageHeaderProfileRef.current.contains(event.target as Node);
+
+            if (clickOnProfile) {
+                setIsDropDownOpen(true);
+                // This is to let the toggle logic in PageHeaderProfile.tsx override the mousedown event
+            } else if (clickOutsideDropdown) {
                 setIsDropDownOpen(false);
             }
         }
