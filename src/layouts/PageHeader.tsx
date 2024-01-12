@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { RootState } from '../store/store';
 import ProfileDropDown from '../components/ProfileDropDown';
 import { useSelector } from 'react-redux';
+import PageHeaderLogo from '../components/PageHeaderLogo';
 
 const PageHeader = () => {
   const [isDropDownOpen, setIsDropDownOpen] = React.useState(false);
@@ -26,16 +27,7 @@ const PageHeader = () => {
   return (
     <div className='sticky top-0 z-20 flex gap-10 lg:gap-20 justify-between 
     pt-3 pb-3 px-2 bg-white text-black border-b border-gray-300 shadow-md'>
-      <div className='flex gap-4 items-center flex-shrink-0'>
-        <img
-          src="/logo_transparent.png"
-          alt="Logo"
-          className="w-20 h-20 ml-5 object-cover object-top rounded-full"
-        />
-        <p>
-          Connecting Conversations, Spreading Stories
-        </p>
-      </div>
+      <PageHeaderLogo />
       <div className='flex items-center'>
         <div className='relative container'>
           <img
