@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CustomButton from './CustomButton';
 import { formatTime } from '../utils/utils';
 import { Thread } from '../store/threads/threadSlice';
+import ThreadLikeComponent from './ThreadLikeComponent';
 
 interface ThreadCardProps {
     thread: Thread;
@@ -24,9 +25,12 @@ const ThreadCard: React.FC<ThreadCardProps> = ({ thread }) => {
             </div>
             <h2 className="text-xl font-semibold m-2">{thread.title}</h2>
             <p className="text-md m-2 pb-2 text-gray-700">{thread.body}</p>
-            <Link to={`/threads/${thread.ID}`}>
-                <CustomButton>View</CustomButton>
-            </Link>
+            <div className='flex flex-row justify-between'>
+                <ThreadLikeComponent likes={thread.likes} />
+                <Link to={`/threads/${thread.ID}`}>
+                    <CustomButton>View</CustomButton>
+                </Link>
+            </div>
         </div>
     );
 };

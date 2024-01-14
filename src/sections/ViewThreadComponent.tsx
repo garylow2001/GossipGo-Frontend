@@ -7,6 +7,7 @@ import { deleteThread } from '../store/threads/threadSlice'
 import { useNavigate } from 'react-router-dom'
 import CustomButton from '../components/CustomButton'
 import { formatTime } from '../utils/utils'
+import ThreadLikeComponent from '../components/ThreadLikeComponent'
 
 interface ViewThreadComponentProps {
   currentUser: User | null
@@ -51,6 +52,7 @@ const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, 
           </div>
           <h2 className="text-xl font-bold mb-2">{thread.title}</h2>
           <p className="mb-4">{thread.body}</p>
+          <ThreadLikeComponent likes={thread.likes} />
           {currentUser && currentUser.ID === thread.author.ID && (
             <div className="flex gap-2 mt-4">
               <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>
