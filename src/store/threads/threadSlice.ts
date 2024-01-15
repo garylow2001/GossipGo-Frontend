@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createThreadLike, deleteThreadLike } from './threadLikeSlice';
 
 export interface Thread {
     ID: number;
@@ -79,6 +80,16 @@ const threadSlice = createSlice({
             })
             .addCase(deleteThread.rejected, (state, action) => {
                 state.deleteError = action.payload as string;
+            })
+            .addCase(createThreadLike.fulfilled, (state, action) => {
+                if (state.thread) {
+                    state.thread.likes = action.payload.data;
+                }
+            })
+            .addCase(deleteThreadLike.fulfilled, (state, action) => {
+                if (state.thread) {
+                    state.thread.likes = action.payload.data;
+                }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'),
                 (state) => {

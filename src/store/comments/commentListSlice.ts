@@ -1,7 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Comment, addComment, deleteComment, updateComment } from "./commentSlice";
+import { createCommentLike, deleteCommentLike } from "./commentLikeSlice";
 
-export interface CommentList extends Array<Comment> {}
+export interface CommentList extends Array<Comment> { }
 
 interface CommentListState {
     comments: CommentList;
@@ -25,39 +26,55 @@ const commentListSlice = createSlice({
             state.loading = false;
             state.error = null;
         })
-        .addCase(fetchComments.rejected, (state, action) => {
-            state.comments = [];
-        })
-        .addCase(addComment.fulfilled, (state, action) => {
-            state.comments.push(action.payload);
-        })
-        .addCase(updateComment.fulfilled, (state, action) => {
-            state.comments = state.comments.map((comment) => 
-                comment.ID === action.payload.ID ? action.payload : comment
+            .addCase(fetchComments.rejected, (state, action) => {
+                state.comments = [];
+            })
+            .addCase(addComment.fulfilled, (state, action) => {
+                state.comments.push(action.payload);
+            })
+            .addCase(updateComment.fulfilled, (state, action) => {
+                state.comments = state.comments.map((comment) =>
+                    comment.ID === action.payload.ID ? action.payload : comment
+                );
+            })
+            .addCase(deleteComment.fulfilled, (state, action) => {
+                const deletedCommentID = action.payload.ID;
+                state.comments = state.comments.filter((comment: Comment) => comment.ID !== deletedCommentID);
+            })
+            .addCase(createCommentLike.fulfilled, (state, action) => {
+                console.log(action.payload);
+                const updatedCommentID = action.payload.commentID;
+                const comment = state.comments.find(comment => comment.comment_id === updatedCommentID);
+                if (comment) {
+                    comment.likes = action.payload.data;
+                }
+            })
+            .addCase(deleteCommentLike.fulfilled, (state, action) => {
+                console.log(action.payload);
+                const updatedCommentID = action.payload.commentID;
+                const comment = state.comments.find(comment => comment.comment_id === updatedCommentID);
+                if (comment) {
+                    comment.likes = action.payload.data;
+                }
+            })
+            .addMatcher((action) => isPending(action) && action.type.startsWith('commentList/'),
+                (state) => {
+                    state.loading = true;
+                    state.error = null;
+                }
+            )
+            .addMatcher((action) => isFulfilled(action) && action.type.startsWith('commentList/'),
+                (state) => {
+                    state.loading = false;
+                    state.error = null;
+                }
+            )
+            .addMatcher((action) => isRejected(action) && action.type.startsWith('commentList/'),
+                (state, action: PayloadAction<string>) => {
+                    state.loading = false;
+                    state.error = action.payload;
+                }
             );
-        })
-        .addCase(deleteComment.fulfilled, (state, action) => {
-            const deletedCommentID = action.payload.ID;
-            state.comments = state.comments.filter((comment:Comment) => comment.ID !== deletedCommentID);
-        })
-        .addMatcher((action) => isPending(action) && action.type.startsWith('commentList/'), 
-            (state) => {
-                state.loading = true;
-                state.error = null;
-            }
-        )
-        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('commentList/'), 
-            (state) => {
-                state.loading = false;
-                state.error = null;
-            }
-        )
-        .addMatcher((action) => isRejected(action) && action.type.startsWith('commentList/'), 
-            (state, action: PayloadAction<string>) => {
-                state.loading = false;
-                state.error = action.payload;
-            }
-        );
     }
 });
 

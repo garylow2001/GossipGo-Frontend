@@ -36,14 +36,11 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onRequestClose }) => {
             </div>
             {isLogin ? (
                 <LoginPopup
-                    isOpen={isOpen}
                     onRequestClose={onRequestClose}
                     onToggleForm={handleToggleForm}
                 />
             ) : (
                 <SignupPopup
-                    isOpen={isOpen}
-                    onRequestClose={onRequestClose}
                     onToggleForm={handleToggleForm}
                 />
             )}

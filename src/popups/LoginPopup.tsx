@@ -11,12 +11,11 @@ interface LoginFormData {
 }
 
 interface LoginPopupProps {
-    isOpen: boolean;
     onRequestClose: () => void;
     onToggleForm: () => void;
 }
 
-const LoginPopup: React.FC<LoginPopupProps> = ({ isOpen, onRequestClose, onToggleForm }) => {
+const LoginPopup: React.FC<LoginPopupProps> = ({ onRequestClose, onToggleForm }) => {
     const [formData, setFormData] = useState<LoginFormData>({
         username: '',
         password: '',

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createCommentLike, deleteCommentLike } from './commentLikeSlice';
 
 export interface Comment {
     ID: number;
@@ -66,6 +67,18 @@ const commentSlice = createSlice({
             })
             .addCase(deleteComment.rejected, (state, action) => {
                 state.deleteError = action.payload as string;
+            })
+            .addCase(createCommentLike.fulfilled, (state, action) => {
+                const comment = state.comment;
+                if (comment) {
+                    comment.likes = action.payload.data;
+                }
+            })
+            .addCase(deleteCommentLike.fulfilled, (state, action) => {
+                const comment = state.comment;
+                if (comment) {
+                    comment.likes = action.payload.data;
+                }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('comment/'),
                 (state) => {
