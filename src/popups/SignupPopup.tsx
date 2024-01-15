@@ -6,8 +6,6 @@ import CustomButton from '../components/CustomButton';
 import PageTitle from '../components/PageTitle';
 
 interface SignupPopupProps {
-    isOpen: boolean;
-    onRequestClose: () => void;
     onToggleForm: () => void;
 }
 
@@ -16,7 +14,7 @@ interface SignupFormData {
     password: string;
 }
 
-const SignupPopup: React.FC<SignupPopupProps> = ({ isOpen, onRequestClose, onToggleForm }) => {
+const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
     const [formData, setFormData] = useState<SignupFormData>({
         username: '',
         password: '',
@@ -36,7 +34,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ isOpen, onRequestClose, onTog
         e.preventDefault();
         const actionResult = await dispatch(signup(formData));
         if (signup.fulfilled.match(actionResult)) {
-            onRequestClose(); // Close the popup after successful signup
+            onToggleForm();
         }
     };
 

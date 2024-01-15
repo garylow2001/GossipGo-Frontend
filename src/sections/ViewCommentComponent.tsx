@@ -3,6 +3,7 @@ import { Comment, deleteComment, } from '../store/comments/commentSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import CustomButton from '../components/CustomButton'
+import CommentLikeComponent from '../components/CommentLikeComponent'
 
 interface ViewCommentComponentProps {
     comment: Comment
@@ -37,6 +38,7 @@ const ViewCommentComponent: React.FC<ViewCommentComponentProps> = ({ comment, se
                 <span className="font-medium">{comment.author.username}</span>
             </div>
             <p>{comment.body}</p>
+            <CommentLikeComponent likes={comment.likes} threadID={comment.thread_id} commentID={comment.comment_id} />
             {currentUser && currentUser.ID === comment.author.ID && (
                 <div className="flex gap-2">
                     <CustomButton onClick={() => setEditCommentId(comment.ID)}>Update</CustomButton>

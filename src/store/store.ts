@@ -5,6 +5,8 @@ import commentReducer from './comments/commentSlice';
 import commentListReducer from './comments/commentListSlice';
 import threadReducer from './threads/threadSlice';
 import userReducer from './user/userSlice';
+import threadLikeReducer from './threads/threadLikeSlice';
+import commentLikeReducer from './comments/commentLikeSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,8 +14,10 @@ export const store = configureStore({
         user: userReducer,
         thread: threadReducer,
         threadList: threadListReducer,
+        threadLike: threadLikeReducer,
         comment: commentReducer,
         commentList: commentListReducer,
+        commentLike: commentLikeReducer,
     },
 });
 

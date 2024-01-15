@@ -13,8 +13,8 @@ const CreateThreadPage: React.FC = () => {
   const [body, setBody] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const error = useSelector((state: RootState) => state.threadList.error);
-  const loading = useSelector((state: RootState) => state.threadList.loading);
+  const error = useSelector((state: RootState) => state.thread.createError);
+  const loading = useSelector((state: RootState) => state.thread.loading);
 
   const handleCreateThread = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createThreadLike, deleteThreadLike } from './threadLikeSlice';
 
 export interface Thread {
     ID: number;
@@ -15,6 +16,16 @@ export interface Thread {
         DeletedAt: string | null;
         username: string;
     };
+    likes: ThreadLike[];
+}
+
+export interface ThreadLike {
+    ID: number;
+    CreatedAt: string;
+    UpdatedAt: string;
+    DeletedAt: string | null;
+    user_id: number;
+    thread_id: number;
 }
 
 interface UpdateThreadPayload {
@@ -49,48 +60,58 @@ const threadSlice = createSlice({
         builder.addCase(fetchThread.fulfilled, (state, action) => {
             state.thread = action.payload;
         })
-        .addCase(fetchThread.rejected, (state, action) => {
-            state.fetchError = action.payload as string;
-        })
-        .addCase(createThread.fulfilled, (state, action) => {
-            state.thread = action.payload;
-        })
-        .addCase(createThread.rejected, (state, action) => {
-            state.createError = action.payload as string;
-        })
-        .addCase(updateThread.fulfilled, (state, action) => {
-            state.thread = action.payload;
-        })
-        .addCase(updateThread.rejected, (state, action) => {
-            state.updateError = action.payload as string;
-        })
-        .addCase(deleteThread.fulfilled, (state, action) => {
-            state.thread = action.payload;
-        })
-        .addCase(deleteThread.rejected, (state, action) => {
-            state.deleteError = action.payload as string;
-        })
-        .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'), 
-            (state) => {
-                state.loading = true;
-                state.createError = null;
-                state.updateError = null;
-                state.deleteError = null;
-            }
-        )
-        .addMatcher((action) => isFulfilled(action) && action.type.startsWith('thread/'), 
-            (state) => {
-                state.loading = false;
-                state.createError = null;
-                state.updateError = null;
-                state.deleteError = null;
-            }
-        )
-        .addMatcher((action) => isRejected(action) && action.type.startsWith('thread/'), 
-            (state) => {
-                state.loading = false;
-            }
-        );
+            .addCase(fetchThread.rejected, (state, action) => {
+                state.fetchError = action.payload as string;
+            })
+            .addCase(createThread.fulfilled, (state, action) => {
+                state.thread = action.payload;
+            })
+            .addCase(createThread.rejected, (state, action) => {
+                state.createError = action.payload as string;
+            })
+            .addCase(updateThread.fulfilled, (state, action) => {
+                state.thread = action.payload;
+            })
+            .addCase(updateThread.rejected, (state, action) => {
+                state.updateError = action.payload as string;
+            })
+            .addCase(deleteThread.fulfilled, (state, action) => {
+                state.thread = action.payload;
+            })
+            .addCase(deleteThread.rejected, (state, action) => {
+                state.deleteError = action.payload as string;
+            })
+            .addCase(createThreadLike.fulfilled, (state, action) => {
+                if (state.thread) {
+                    state.thread.likes = action.payload.data;
+                }
+            })
+            .addCase(deleteThreadLike.fulfilled, (state, action) => {
+                if (state.thread) {
+                    state.thread.likes = action.payload.data;
+                }
+            })
+            .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'),
+                (state) => {
+                    state.loading = true;
+                    state.createError = null;
+                    state.updateError = null;
+                    state.deleteError = null;
+                }
+            )
+            .addMatcher((action) => isFulfilled(action) && action.type.startsWith('thread/'),
+                (state) => {
+                    state.loading = false;
+                    state.createError = null;
+                    state.updateError = null;
+                    state.deleteError = null;
+                }
+            )
+            .addMatcher((action) => isRejected(action) && action.type.startsWith('thread/'),
+                (state) => {
+                    state.loading = false;
+                }
+            );
     }
 });
 
@@ -132,25 +153,25 @@ export const createThread = createAsyncThunk(
 );
 
 export const updateThread = createAsyncThunk(
-  'thread/updateThread',
-  async (thread: UpdateThreadPayload, thunkAPI) => {
-    const response = await fetch(`http://localhost:3000/threads/${thread.ID}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(thread),
-      credentials: 'include'
-    });
+    'thread/updateThread',
+    async (thread: UpdateThreadPayload, thunkAPI) => {
+        const response = await fetch(`http://localhost:3000/threads/${thread.ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(thread),
+            credentials: 'include'
+        });
 
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      return thunkAPI.rejectWithValue(errorResponse.error);
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            return thunkAPI.rejectWithValue(errorResponse.error);
+        }
+
+        const data = await response.json();
+        return data;
     }
-
-    const data = await response.json();
-    return data;
-  }
 );
 
 export const deleteThread = createAsyncThunk(
@@ -160,7 +181,7 @@ export const deleteThread = createAsyncThunk(
             method: 'DELETE',
             credentials: 'include'
         });
-    
+
         if (!response.ok) {
             const errorResponse = await response.json();
             return thunkAPI.rejectWithValue(errorResponse.error);
@@ -169,6 +190,6 @@ export const deleteThread = createAsyncThunk(
         const result = await response.json();
         return result;
     }
-    );
+);
 
 export default threadSlice.reducer;
