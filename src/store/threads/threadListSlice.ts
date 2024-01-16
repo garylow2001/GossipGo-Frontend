@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Thread, createThread, deleteThread, updateThread } from "./threadSlice";
 import { createThreadLike, deleteThreadLike } from "./threadLikeSlice";
+import { convertToSlug, threadCategories } from "../../utils/utils";
 
 interface ThreadListState {
     threads: Thread[];
@@ -26,6 +27,9 @@ const threadListSlice = createSlice({
         builder.addCase(fetchThreadList.fulfilled, (state, action) => {
             state.threads = action.payload;
         })
+            .addCase(fetchThreadList.rejected, (state) => {
+                state.threads = [];
+            })
             .addCase(createThread.fulfilled, (state, action) => {
                 state.threads.push(action.payload);
             })
@@ -76,8 +80,19 @@ const threadListSlice = createSlice({
 
 export const fetchThreadList = createAsyncThunk(
     "threadList/fetchThreadList",
-    async (_, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/threads");
+    async ({ option }: { option?: string } = {}, thunkAPI) => {
+        let url;
+        if (!option) {
+            url = "http://localhost:3000/threads";
+        } else if (option === "recent") {
+            url = "http://localhost:3000/threads/recent";
+        } else if (threadCategories.includes(option)) {
+            url = "http://localhost:3000/threads/category/" + convertToSlug(option);
+        } else {
+            url = "http://localhost:3000/threads";
+        }
+        console.log(url);
+        const response = await fetch(url);
         if (!response.ok) {
             const errorResponse = await response.json();
             return thunkAPI.rejectWithValue(errorResponse.error);
