@@ -1,3 +1,5 @@
+export const threadCategories = ["Academic", "News", "Technology", "Entertainment", "Hot Takes"]
+
 export function formatTime(timeCreatedAt: string, timeUpdatedAt: string) {
     const currentTime = new Date();
     let targetTime;
@@ -32,4 +34,11 @@ export function formatTime(timeCreatedAt: string, timeUpdatedAt: string) {
     }
 
     return `${prefix} ${timeShown}`;
+}
+
+export function convertToSlug(text: string) {
+    return text
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '');
 }

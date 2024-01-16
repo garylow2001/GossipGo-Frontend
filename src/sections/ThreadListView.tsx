@@ -14,7 +14,7 @@ const ThreadListView: React.FC = () => {
   const threadList = useSelector((state: RootState) => state.threadList);
 
   useEffect(() => {
-    dispatch(fetchThreadList());
+    dispatch(fetchThreadList({}));
   }, [dispatch]);
 
   return (
