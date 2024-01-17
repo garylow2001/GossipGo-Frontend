@@ -23,8 +23,10 @@ const App: React.FC = () => {
           <Route index element={<MainPage />} />
           <Route path="/threads">
             <Route path="/threads" element={<MainPage />} />
-            <Route path="/threads/new-thread" element={<CreateThreadPage />} />
             <Route path="/threads/:id" element={<ViewThreadPage />} />
+            <Route path="/threads/new-thread" element={<CreateThreadPage />} />
+            <Route path="/threads/sort/:option" element={<MainPage />} />
+            <Route path="/threads/category/:option" element={<MainPage />} />
           </Route>
         </Routes>
       </Router>

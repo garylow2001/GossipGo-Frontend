@@ -16,6 +16,9 @@ interface ViewThreadComponentProps {
 
 const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, setIsEditing }) => {
   const threadState = useSelector((state: RootState) => state.thread)
+  const { ID, likes_count } = threadState.thread!
+  const threadID = ID
+  const threadLikesCount = likes_count
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const { fetchError, deleteError, loading, thread } = threadState
@@ -52,7 +55,7 @@ const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, 
           </div>
           <h2 className="text-xl font-bold mb-2">{thread.title}</h2>
           <p className="mb-4">{thread.body}</p>
-          <ThreadLikeComponent likes={thread.likes} threadID={thread.ID} />
+          <ThreadLikeComponent threadID={threadID} likesCount={threadLikesCount} />
           {currentUser && currentUser.ID === thread.author.ID && (
             <div className="flex gap-2 mt-4">
               <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>

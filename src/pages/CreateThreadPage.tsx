@@ -20,7 +20,7 @@ const CreateThreadPage: React.FC = () => {
     event.preventDefault();
     const resultAction = await dispatch(createThread({ title, body }));
     if (createThread.fulfilled.match(resultAction)) {
-      navigate('/threads');
+      navigate('/threads/sort/recent');
     }
   };
 
