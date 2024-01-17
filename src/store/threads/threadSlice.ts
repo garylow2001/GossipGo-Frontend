@@ -17,6 +17,7 @@ export interface Thread {
         username: string;
     };
     likes: ThreadLike[];
+    likes_count: number;
 }
 
 export interface ThreadLike {
@@ -83,12 +84,12 @@ const threadSlice = createSlice({
             })
             .addCase(createThreadLike.fulfilled, (state, action) => {
                 if (state.thread) {
-                    state.thread.likes = action.payload.data;
+                    state.thread.likes.push(action.payload.data);
                 }
             })
             .addCase(deleteThreadLike.fulfilled, (state, action) => {
                 if (state.thread) {
-                    state.thread.likes = action.payload.data;
+                    state.thread.likes = state.thread.likes.filter((like) => like.ID !== action.payload.data.ID);
                 }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'),

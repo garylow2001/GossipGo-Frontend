@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchThreadList } from '../store/threads/threadListSlice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
 import ThreadCard from '../components/ThreadCard';
@@ -11,11 +11,13 @@ import PageTitle from '../components/PageTitle';
 
 const ThreadListView: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { option } = useParams<{ option?: string }>();
   const threadList = useSelector((state: RootState) => state.threadList);
 
   useEffect(() => {
-    dispatch(fetchThreadList({}));
-  }, [dispatch]);
+    if (!option) dispatch(fetchThreadList({}));
+    dispatch(fetchThreadList({ option }));
+  }, [dispatch, option]);
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>

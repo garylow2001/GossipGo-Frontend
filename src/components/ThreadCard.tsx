@@ -26,7 +26,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({ thread }) => {
             <h2 className="text-xl font-semibold m-2">{thread.title}</h2>
             <p className="text-md m-2 pb-2 text-gray-700">{thread.body}</p>
             <div className='flex flex-row justify-between'>
-                <ThreadLikeComponent likes={thread.likes} threadID={thread.ID} />
+                <ThreadLikeComponent threadID={thread.ID} likesCount={thread.likes_count} />
                 <Link to={`/threads/${thread.ID}`}>
                     <CustomButton>View</CustomButton>
                 </Link>

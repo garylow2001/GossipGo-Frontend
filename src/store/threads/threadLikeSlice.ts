@@ -3,12 +3,14 @@ import { ThreadLike } from "./threadSlice";
 
 interface ThreadLikeState {
     loading: boolean;
+    threadId: number | null;
     createError: string | null;
     deleteError: string | null;
 }
 
 const initialState: ThreadLikeState = {
     loading: false,
+    threadId: null,
     createError: null,
     deleteError: null,
 }
@@ -18,11 +20,12 @@ const threadLikeSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(createThreadLike.fulfilled, (state, action) => {
+        builder.addCase(createThreadLike.fulfilled, (state) => {
             state.loading = false;
             state.createError = null;
         })
-            .addCase(createThreadLike.pending, (state) => {
+            .addCase(createThreadLike.pending, (state, action) => {
+                state.threadId = action.meta.arg;
                 state.loading = true;
                 state.createError = null;
             })
@@ -30,11 +33,12 @@ const threadLikeSlice = createSlice({
                 state.loading = false;
                 state.createError = action.payload as string;
             })
-            .addCase(deleteThreadLike.fulfilled, (state, action) => {
+            .addCase(deleteThreadLike.fulfilled, (state) => {
                 state.loading = false;
                 state.deleteError = null;
             })
-            .addCase(deleteThreadLike.pending, (state) => {
+            .addCase(deleteThreadLike.pending, (state, action) => {
+                state.threadId = action.meta.arg;
                 state.loading = true;
             })
             .addCase(deleteThreadLike.rejected, (state, action) => {
@@ -57,7 +61,7 @@ export const createThreadLike = createAsyncThunk(
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 
-        const data = await response.json();
+        const data: ThreadLike = await response.json();
         return { threadId, data };
     }
 )

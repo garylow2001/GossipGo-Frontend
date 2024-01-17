@@ -31,7 +31,7 @@ const threadListSlice = createSlice({
                 state.threads = [];
             })
             .addCase(createThread.fulfilled, (state, action) => {
-                state.threads.push(action.payload);
+                state.threads.unshift(action.payload);
             })
             .addCase(updateThread.fulfilled, (state, action) => {
                 const updatedThreadID = action.payload.ID;
@@ -47,14 +47,17 @@ const threadListSlice = createSlice({
                 const updatedThreadID = action.payload.threadId;
                 const thread = state.threads.find(thread => thread.ID === updatedThreadID);
                 if (thread) {
-                    thread.likes = action.payload.data;
+                    if (!thread.likes) {
+                        thread.likes = [];
+                    }
+                    thread.likes.push(action.payload.data);
                 }
             })
             .addCase(deleteThreadLike.fulfilled, (state, action) => {
                 const updatedThreadID = action.payload.threadId;
                 const thread = state.threads.find(thread => thread.ID === updatedThreadID);
                 if (thread) {
-                    thread.likes = action.payload.data;
+                    thread.likes = thread.likes.filter((like) => like.ID !== action.payload.data.ID);
                 }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('threadList/'),
@@ -86,12 +89,13 @@ export const fetchThreadList = createAsyncThunk(
             url = "http://localhost:3000/threads";
         } else if (option === "recent") {
             url = "http://localhost:3000/threads/recent";
+        } else if (option === "popular") {
+            url = "http://localhost:3000/threads/popular";
         } else if (threadCategories.includes(option)) {
             url = "http://localhost:3000/threads/category/" + convertToSlug(option);
         } else {
             url = "http://localhost:3000/threads";
         }
-        console.log(url);
         const response = await fetch(url);
         if (!response.ok) {
             const errorResponse = await response.json();

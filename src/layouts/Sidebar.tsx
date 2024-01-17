@@ -1,24 +1,29 @@
 import React from 'react'
 import { threadCategories } from '../utils/utils'
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store/store';
-import { fetchThreadList } from '../store/threads/threadListSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleGetRecent = () => {
-    dispatch(fetchThreadList({ option: 'recent' }));
+    navigate('/threads/sort/recent');
+  }
+
+  const handleGetPopular = () => {
+    navigate('/threads/sort/popular');
   }
 
   const handleGetCategory = (category: string) => {
-    dispatch(fetchThreadList({ option: category }));
+    navigate(`/threads/category/${category}`);
   }
   return (
     <aside className='fixed h-screen w-32 overflow-y-auto hidden-scrollbar flex flex-col px-1 pt-6 border-r bg-gray-100 border-gray-300'>
-      <p>---SIDEBAR---</p>
-      <div className='flex flex-col my-20 space-between gap-20 pb-20'>
+      <div className='flex flex-col mb-20 space-between gap-5 pb-10'>
+        <p className='font-bold'>New/Hot</p>
+        <SideBarElement label='Trending' onClick={handleGetPopular} />
         <SideBarElement label='Recent' onClick={handleGetRecent} />
+        <hr className='border-gray-300' />
+        <p className='font-bold'>Categories</p>
         {threadCategories.map((category, index) => (
           <SideBarElement key={index} label={category} onClick={() => handleGetCategory(category)} />
         ))}

@@ -30,7 +30,7 @@ const commentListSlice = createSlice({
                 state.comments = [];
             })
             .addCase(addComment.fulfilled, (state, action) => {
-                state.comments.push(action.payload);
+                state.comments.unshift(action.payload);
             })
             .addCase(updateComment.fulfilled, (state, action) => {
                 state.comments = state.comments.map((comment) =>
