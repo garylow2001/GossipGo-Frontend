@@ -84,12 +84,17 @@ const threadSlice = createSlice({
             })
             .addCase(createThreadLike.fulfilled, (state, action) => {
                 if (state.thread) {
+                    if (!state.thread.likes) {
+                        state.thread.likes = [];
+                    }
                     state.thread.likes.push(action.payload.data);
+                    state.thread.likes_count = state.thread.likes.length;
                 }
             })
             .addCase(deleteThreadLike.fulfilled, (state, action) => {
                 if (state.thread) {
                     state.thread.likes = state.thread.likes.filter((like) => like.ID !== action.payload.data.ID);
+                    state.thread.likes_count = state.thread.likes.length;
                 }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('thread/'),

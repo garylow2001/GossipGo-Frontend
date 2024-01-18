@@ -80,7 +80,7 @@ export const deleteThreadLike = createAsyncThunk(
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 
-        const data = await response.json();
+        const data: ThreadLike = await response.json();
         return { threadId, data };
     }
 )

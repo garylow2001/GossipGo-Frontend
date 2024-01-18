@@ -3,6 +3,7 @@ import { login, logout } from "../auth/authSlice";
 import { Thread, ThreadLike } from "../threads/threadSlice";
 import { CommentLike } from "../comments/commentSlice";
 import { createThreadLike, deleteThreadLike } from "../threads/threadLikeSlice";
+import { createCommentLike, deleteCommentLike } from "../comments/commentLikeSlice";
 
 export interface User {
     ID: number;
@@ -63,6 +64,17 @@ const userSlice = createSlice({
                     const deletedThreadLikeID = action.payload.data.ID;
                     state.currentUser.thread_likes = state.currentUser.thread_likes
                         ?.filter((threadLike) => threadLike.ID !== deletedThreadLikeID) || null;
+                }
+            })
+            .addCase(createCommentLike.fulfilled, (state, action) => {
+                const createdCommentLike = action.payload.data;
+                state.currentUser?.comment_likes?.push(createdCommentLike);
+            })
+            .addCase(deleteCommentLike.fulfilled, (state, action) => {
+                if (state.currentUser) {
+                    const deletedCommentLikeID = action.payload.data.ID;
+                    state.currentUser.comment_likes = state.currentUser.comment_likes
+                        ?.filter((commentLike) => commentLike.ID !== deletedCommentLikeID) || null;
                 }
             });
     },

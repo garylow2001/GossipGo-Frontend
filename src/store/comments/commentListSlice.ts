@@ -42,19 +42,22 @@ const commentListSlice = createSlice({
                 state.comments = state.comments.filter((comment: Comment) => comment.ID !== deletedCommentID);
             })
             .addCase(createCommentLike.fulfilled, (state, action) => {
-                console.log(action.payload);
                 const updatedCommentID = action.payload.commentID;
                 const comment = state.comments.find(comment => comment.comment_id === updatedCommentID);
                 if (comment) {
-                    comment.likes = action.payload.data;
+                    if (!comment.likes) {
+                        comment.likes = [];
+                    }
+                    comment.likes.push(action.payload.data);
+                    comment.likes_count = comment.likes.length;
                 }
             })
             .addCase(deleteCommentLike.fulfilled, (state, action) => {
-                console.log(action.payload);
                 const updatedCommentID = action.payload.commentID;
                 const comment = state.comments.find(comment => comment.comment_id === updatedCommentID);
                 if (comment) {
-                    comment.likes = action.payload.data;
+                    comment.likes = comment.likes.filter((like) => like.ID !== action.payload.data.ID);
+                    comment.likes_count = comment.likes.length;
                 }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('commentList/'),
@@ -87,7 +90,6 @@ export const fetchComments = createAsyncThunk(
 
         if (!response.ok) {
             const errorResponse = await response.json();
-            console.log(errorResponse);
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 

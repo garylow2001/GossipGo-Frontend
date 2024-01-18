@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
@@ -17,25 +17,16 @@ const ThreadLikeComponent: React.FC<ThreadLikeComponentProps> = ({ threadID, lik
     const isFocused = threadId === threadID;
     const dispatch = useDispatch<AppDispatch>();
 
-    const [localLikesCount, setLocalLikesCount] = useState(likesCount);
-    const [localUserHasLiked, setLocalUserHasLiked] = useState(userHasLiked);
-
-    useEffect(() => {
-        setLocalUserHasLiked(userHasLiked);
-    }, [userHasLiked]);
-
     const handleLikeComment = () => {
         dispatch(createThreadLike(threadID));
-        setLocalLikesCount(localLikesCount + 1);
     }
 
     const handleUnlikeComment = () => {
         dispatch(deleteThreadLike(threadID));
-        setLocalLikesCount(localLikesCount - 1);
     }
 
     const handleToggleLike = () => {
-        if (localUserHasLiked) {
+        if (userHasLiked) {
             handleUnlikeComment();
         } else {
             handleLikeComment();
@@ -51,7 +42,7 @@ const ThreadLikeComponent: React.FC<ThreadLikeComponentProps> = ({ threadID, lik
                 <div className='hover:cursor-pointer' onClick={handleToggleLike}>
                     {userHasLiked ? <FaHeart /> : <FaRegHeart />}
                 </div>
-                <p className='pb-0.5'>{localLikesCount}</p>
+                <p className='pb-0.5'>{likesCount}</p>
             </div>
             }
         </div>
