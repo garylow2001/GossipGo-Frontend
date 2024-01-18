@@ -1,12 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CommentLike } from "./commentSlice";
 
 interface CommentLikeState {
+    threadID: number | null;
+    commentIDonThread: number | null;
     loading: boolean;
     createError: string | null;
     deleteError: string | null;
 }
 
 const initialState: CommentLikeState = {
+    threadID: null,
+    commentIDonThread: null,
     loading: false,
     createError: null,
     deleteError: null,
@@ -21,7 +26,9 @@ const commentLikeSlice = createSlice({
             state.loading = false;
             state.createError = null;
         })
-            .addCase(createCommentLike.pending, (state) => {
+            .addCase(createCommentLike.pending, (state, action) => {
+                state.threadID = action.meta.arg.threadID;
+                state.commentIDonThread = action.meta.arg.commentID;
                 state.loading = true;
                 state.createError = null;
             })
@@ -33,8 +40,11 @@ const commentLikeSlice = createSlice({
                 state.loading = false;
                 state.deleteError = null;
             })
-            .addCase(deleteCommentLike.pending, (state) => {
+            .addCase(deleteCommentLike.pending, (state, action) => {
+                state.threadID = action.meta.arg.threadID;
+                state.commentIDonThread = action.meta.arg.commentID;
                 state.loading = true;
+                state.deleteError = null;
             })
             .addCase(deleteCommentLike.rejected, (state, action) => {
                 state.loading = false;
@@ -56,7 +66,7 @@ export const createCommentLike = createAsyncThunk(
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 
-        const data = await response.json();
+        const data: CommentLike = await response.json();
         return { threadID, commentID, data };
     }
 );
@@ -74,7 +84,7 @@ export const deleteCommentLike = createAsyncThunk(
             return thunkAPI.rejectWithValue(errorResponse.error);
         }
 
-        const data = await response.json();
+        const data: CommentLike = await response.json();
         return { threadID, commentID, data };
     }
 );

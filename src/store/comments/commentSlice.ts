@@ -18,6 +18,7 @@ export interface Comment {
     thread_id: number;
     comment_id: number;
     likes: CommentLike[];
+    likes_count: number;
 }
 
 export interface CommentLike {
@@ -71,13 +72,18 @@ const commentSlice = createSlice({
             .addCase(createCommentLike.fulfilled, (state, action) => {
                 const comment = state.comment;
                 if (comment) {
-                    comment.likes = action.payload.data;
+                    if (!comment.likes) {
+                        comment.likes = [];
+                    }
+                    comment.likes.push(action.payload.data);
+                    comment.likes_count = comment.likes.length;
                 }
             })
             .addCase(deleteCommentLike.fulfilled, (state, action) => {
                 const comment = state.comment;
                 if (comment) {
-                    comment.likes = action.payload.data;
+                    comment.likes = comment.likes.filter((like) => like.ID !== action.payload.data.ID);
+                    comment.likes_count = comment.likes.length;
                 }
             })
             .addMatcher((action) => isPending(action) && action.type.startsWith('comment/'),
