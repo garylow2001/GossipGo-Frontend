@@ -20,11 +20,7 @@ const ThreadListView: React.FC = () => {
   }, [dispatch, option]);
 
   return (
-    <div className='flex flex-col items-center justify-center h-full'>
-      <PageTitle>Threads Page</PageTitle>
-      <Link to="/threads/new-thread">
-        <CustomButton>Create New Thread</CustomButton>
-      </Link>
+    <div className='flex flex-col items-center justify-top h-full w-full'>
       {threadList.loading && <p>Loading threads...</p>}
       {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
       {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { threadCategories } from '../utils/utils'
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../components/CustomButton';
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
