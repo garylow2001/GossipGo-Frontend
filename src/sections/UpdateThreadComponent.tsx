@@ -71,7 +71,7 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
                     </label>
                     <div className="flex gap-2 mt-4">
                         <CustomButton type="submit">Save</CustomButton>
-                        <CustomButton onClick={() => setIsEditing(false)}>Cancel</CustomButton>
+                        <CustomButton variant="plain" onClick={() => setIsEditing(false)}>Cancel</CustomButton>
                     </div>
                 </form>
             )}

@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchThreadList } from '../store/threads/threadListSlice';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Thread } from '../store/threads/threadSlice';
-import CustomButton from '../components/CustomButton';
 import ThreadCard from '../components/ThreadCard';
-import PageTitle from '../components/PageTitle';
 
 
 const ThreadListView: React.FC = () => {

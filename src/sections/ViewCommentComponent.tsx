@@ -46,7 +46,7 @@ const ViewCommentComponent: React.FC<ViewCommentComponentProps> = ({ comment, se
             {currentUser && currentUser.ID === comment.author.ID && (
                 <div className="flex gap-2">
                     <CustomButton onClick={() => setEditCommentId(comment.ID)}>Update</CustomButton>
-                    <CustomButton onClick={handleDelete}>Delete</CustomButton>
+                    <CustomButton variant="alert" onClick={handleDelete}>Delete</CustomButton>
                 </div>
             )}
         </div>

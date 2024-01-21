@@ -59,7 +59,7 @@ const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, 
           {currentUser && currentUser.ID === thread.author.ID && (
             <div className="flex gap-2 mt-4">
               <CustomButton onClick={() => setIsEditing(true)}>Update</CustomButton>
-              <CustomButton onClick={handleDelete}>Delete</CustomButton>
+              <CustomButton variant="alert" onClick={handleDelete}>Delete</CustomButton>
             </div>
           )}
         </div>

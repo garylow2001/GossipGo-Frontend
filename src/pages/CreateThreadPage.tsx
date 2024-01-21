@@ -51,7 +51,7 @@ const CreateThreadPage: React.FC = () => {
           </CustomButton>
         </form>
         <Link to="/threads" className='block mt-4'>
-          <CustomButton>Back</CustomButton>
+          <CustomButton variant="plain">Back</CustomButton>
         </Link>
       </div>
     </MainLayout>

@@ -63,7 +63,7 @@ const ProfileDropDownElement: React.FC<ProfileDropDownElementProps> = ({ label, 
         <div
             role='listitem'
             onClick={onClick}
-            className='cursor-pointer hover:bg-gray-200 p-2 rounded-md'
+            className='cursor-pointer hover:bg-secondary p-2 rounded-md'
         >
             {label}
         </div>

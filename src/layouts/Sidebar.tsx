@@ -39,7 +39,7 @@ interface SideBarElementProps {
 }
 
 const SideBarElement: React.FC<SideBarElementProps> = ({ label, onClick }) => {
-  return <div onClick={onClick} className='cursor-pointer hover:bg-gray-200 p-2 rounded-md'>
+  return <div onClick={onClick} className='cursor-pointer hover:bg-secondary p-2 rounded-md'>
     <p>{label}</p>
   </div>
 }

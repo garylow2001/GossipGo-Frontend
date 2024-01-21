@@ -28,7 +28,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({ thread }) => {
             <div className='flex flex-row justify-between'>
                 <ThreadLikeComponent threadID={thread.ID} likesCount={thread.likes_count} />
                 <Link to={`/threads/${thread.ID}`}>
-                    <CustomButton variant="default">View</CustomButton>
+                    <CustomButton>View</CustomButton>
                 </Link>
             </div>
         </div >
