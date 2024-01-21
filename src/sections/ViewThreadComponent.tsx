@@ -50,6 +50,7 @@ const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, 
                 className="w-8 h-8 rounded-full mr-2 object-cover object-top"
               />
               <span className="font-medium">{thread.author.username}</span>
+              {thread.category && <p className="text-sm mx-2 text-secondary-button">{thread.category}</p>}
             </div>
             <span className="ml-2">{formatTime(thread.CreatedAt, thread.UpdatedAt)}</span>
           </div>
