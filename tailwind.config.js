@@ -13,6 +13,7 @@ module.exports = {
           button: colors.blue[400],
           buttonhover: colors.blue[600],
           hover: colors.neutral[300],
+          clickable: colors.blue[500]
         }
       },
     },

@@ -72,7 +72,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
             </form>
             <p>
                 Already have an account?{' '}
-                <span className="text-blue-500 cursor-pointer" onClick={onToggleForm}>
+                <span className="text-secondary-clickable cursor-pointer" onClick={onToggleForm}>
                     Login
                 </span>
             </p>
