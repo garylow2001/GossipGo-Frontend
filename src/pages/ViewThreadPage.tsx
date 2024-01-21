@@ -37,7 +37,7 @@ const ViewThreadPage: React.FC = () => {
       <CommentList threadId={id || ''} />
       <div className='flex justify-center'>
         <Link to="/threads">
-          <CustomButton>Back</CustomButton>
+          <CustomButton variant="plain">Back</CustomButton>
         </Link>
       </div>
     </MainLayout>

@@ -38,7 +38,7 @@ const UpdateCommentComponent: React.FC<UpdateCommentComponentProps> = ({ comment
                 />
                 <div className="flex mt-2 gap-2">
                     <CustomButton type="submit">Save</CustomButton>
-                    <CustomButton onClick={() => setEditCommentId(null)}>Cancel</CustomButton>
+                    <CustomButton variant="plain" onClick={() => setEditCommentId(null)}>Cancel</CustomButton>
                 </div>
             </form>
         </div>

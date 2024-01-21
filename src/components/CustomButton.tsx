@@ -5,12 +5,12 @@ import { twMerge } from 'tailwind-merge'
 const buttonStyles = cva(["hover:bg-secondary-hover, transition-colors"], {
     variants: {
         variant: {
-            default: ["bg-secondary", "hover:bg-secondary-hover"],
-            ghost: ["hover:bg-gray-100"]
+            default: ["bg-secondary-button", "hover:bg-secondary-buttonhover", "text-white", "font-medium"],
+            plain: ["bg-secondary", "hover:bg-secondary-hover", "text-black", "font-medium"],
+            alert: ["bg-red-500", "hover:bg-red-700", "text-white", "font-medium"],
         },
         size: {
             default: ["rounded", "p-2"],
-            icon: ["rounded-full", "w-10", "h-10", "flex", "items-center", "justify-center", "p-2.5"],
         }
     },
     defaultVariants: {

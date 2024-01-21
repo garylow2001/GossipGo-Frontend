@@ -73,7 +73,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onRequestClose, onToggleForm })
             </form>
             <p>
                 Don't have an account?{' '}
-                <span className="text-blue-500 cursor-pointer" onClick={onToggleForm}>
+                <span className="text-secondary-clickable cursor-pointer" onClick={onToggleForm}>
                     Signup
                 </span>
             </p>

@@ -31,7 +31,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({ thread }) => {
                     <CustomButton>View</CustomButton>
                 </Link>
             </div>
-        </div>
+        </div >
     );
 };
 

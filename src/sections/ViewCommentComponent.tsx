@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import CustomButton from '../components/CustomButton'
 import CommentLikeComponent from '../components/CommentLikeComponent'
+import { formatTime } from '../utils/utils'
 
 interface ViewCommentComponentProps {
     comment: Comment
@@ -29,20 +30,23 @@ const ViewCommentComponent: React.FC<ViewCommentComponentProps> = ({ comment, se
         <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex flex-col gap-4">
             {loading && <p>Loading...</p>}
             {deleteError && <p>{deleteError}</p>}
-            <div className='flex flex-row items-center'>
-                <img
-                    src="/blankprofile.png"
-                    alt="Profile"
-                    className="w-8 h-8 rounded-full mr-2 object-cover object-top"
-                />
-                <span className="font-medium">{comment.author.username}</span>
+            <div className="flex items-center justify-between mb-2">
+                <div className='flex flex-row items-center'>
+                    <img
+                        src="/blankprofile.png"
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full mr-2 object-cover object-top"
+                    />
+                    <span className="font-medium">{comment.author.username}</span>
+                </div>
+                <span className="ml-2">{formatTime(comment.CreatedAt, comment.UpdatedAt)}</span>
             </div>
             <p>{comment.body}</p>
             <CommentLikeComponent comment={comment} />
             {currentUser && currentUser.ID === comment.author.ID && (
                 <div className="flex gap-2">
                     <CustomButton onClick={() => setEditCommentId(comment.ID)}>Update</CustomButton>
-                    <CustomButton onClick={handleDelete}>Delete</CustomButton>
+                    <CustomButton variant="alert" onClick={handleDelete}>Delete</CustomButton>
                 </div>
             )}
         </div>

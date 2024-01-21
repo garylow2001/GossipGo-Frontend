@@ -7,10 +7,12 @@ import { createThread } from '../store/threads/threadSlice';
 import CustomButton from '../components/CustomButton';
 import MainLayout from '../layouts/MainLayout';
 import PageTitle from '../components/PageTitle';
+import CategoryDropDown from '../components/CategoryDropDown';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const error = useSelector((state: RootState) => state.thread.createError);
@@ -18,7 +20,8 @@ const CreateThreadPage: React.FC = () => {
 
   const handleCreateThread = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const resultAction = await dispatch(createThread({ title, body }));
+    const category = selectedCategory === 'None' ? null : selectedCategory;
+    const resultAction = await dispatch(createThread({ title, body, category }));
     if (createThread.fulfilled.match(resultAction)) {
       navigate('/threads/sort/recent');
     }
@@ -38,6 +41,8 @@ const CreateThreadPage: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
             className='mt-1 p-2 border border-gray-300 rounded-md w-full'
           />
+          <label className='block text-sm font-medium'>Category:</label>
+          <CategoryDropDown selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
           <label className='block text-sm font-medium'>Body:</label>
           <textarea
             value={body}
@@ -51,7 +56,7 @@ const CreateThreadPage: React.FC = () => {
           </CustomButton>
         </form>
         <Link to="/threads" className='block mt-4'>
-          <CustomButton>Back</CustomButton>
+          <CustomButton variant="plain">Back</CustomButton>
         </Link>
       </div>
     </MainLayout>

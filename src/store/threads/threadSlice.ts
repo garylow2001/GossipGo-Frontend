@@ -8,6 +8,7 @@ export interface Thread {
     DeletedAt: string | null;
     title: string;
     body: string;
+    category: string | null;
     author_id: number;
     author: {
         ID: number;
@@ -33,6 +34,7 @@ interface UpdateThreadPayload {
     ID: number;
     title: string;
     body: string;
+    category: string | null;
 }
 
 interface ThreadState {
@@ -138,7 +140,7 @@ export const fetchThread = createAsyncThunk(
 
 export const createThread = createAsyncThunk(
     "thread/createThread",
-    async (payload: { title: string; body: string; }, thunkAPI) => {
+    async (payload: { title: string; body: string, category: string | null }, thunkAPI) => {
         const response = await fetch("http://localhost:3000/threads", {
             method: "POST",
             headers: {

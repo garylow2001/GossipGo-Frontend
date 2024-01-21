@@ -10,11 +10,10 @@ module.exports = {
       colors: {
         secondary: {
           DEFAULT: colors.neutral[200],
+          button: colors.blue[400],
+          buttonhover: colors.blue[600],
           hover: colors.neutral[300],
-          border: colors.neutral[400],
-          text: colors.neutral[500],
-          dark: colors.neutral[800],
-          ["dark-hover"]: colors.neutral[900],
+          clickable: colors.blue[500]
         }
       },
     },
