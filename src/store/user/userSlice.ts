@@ -57,7 +57,12 @@ const userSlice = createSlice({
             })
             .addCase(createThreadLike.fulfilled, (state, action) => {
                 const createdThreadLike = action.payload.data;
-                state.currentUser?.thread_likes?.push(createdThreadLike);
+                if (state.currentUser) {
+                    if (!state.currentUser.thread_likes) {
+                        state.currentUser.thread_likes = [];
+                    }
+                    state.currentUser.thread_likes.push(createdThreadLike);
+                }
             })
             .addCase(deleteThreadLike.fulfilled, (state, action) => {
                 if (state.currentUser) {
@@ -68,7 +73,12 @@ const userSlice = createSlice({
             })
             .addCase(createCommentLike.fulfilled, (state, action) => {
                 const createdCommentLike = action.payload.data;
-                state.currentUser?.comment_likes?.push(createdCommentLike);
+                if (state.currentUser) {
+                    if (!state.currentUser.comment_likes) {
+                        state.currentUser.comment_likes = [];
+                    }
+                    state.currentUser.comment_likes.push(createdCommentLike);
+                }
             })
             .addCase(deleteCommentLike.fulfilled, (state, action) => {
                 if (state.currentUser) {
