@@ -37,7 +37,7 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen, pa
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, []);
+    });
 
     return (
         <div

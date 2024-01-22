@@ -4,6 +4,7 @@ import { Thread, ThreadLike } from "../threads/threadSlice";
 import { CommentLike } from "../comments/commentSlice";
 import { createThreadLike, deleteThreadLike } from "../threads/threadLikeSlice";
 import { createCommentLike, deleteCommentLike } from "../comments/commentLikeSlice";
+import { backendUrl } from "../../utils/utils";
 
 export interface User {
     ID: number;
@@ -93,7 +94,7 @@ const userSlice = createSlice({
 export const getCurrentUser = createAsyncThunk(
     "auth/getCurrentUser",
     async (_, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/validate", {
+        const response = await fetch(`${backendUrl}/validate`, {
             method: "GET",
             credentials: 'include',
         });

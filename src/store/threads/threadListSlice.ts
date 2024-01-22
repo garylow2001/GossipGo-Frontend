@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Thread, createThread, deleteThread, updateThread } from "./threadSlice";
 import { createThreadLike, deleteThreadLike } from "./threadLikeSlice";
-import { convertToSlug, threadCategories } from "../../utils/utils";
+import { backendUrl, convertToSlug, threadCategories } from "../../utils/utils";
 
 interface ThreadListState {
     threads: Thread[];
@@ -88,15 +88,15 @@ export const fetchThreadList = createAsyncThunk(
     async ({ option }: { option?: string } = {}, thunkAPI) => {
         let url;
         if (!option) {
-            url = "http://localhost:3000/threads";
+            url = `${backendUrl}/threads`;
         } else if (option === "recent") {
-            url = "http://localhost:3000/threads/recent";
+            url = `${backendUrl}/threads/recent`;
         } else if (option === "popular") {
-            url = "http://localhost:3000/threads/popular";
+            url = `${backendUrl}/threads/popular`;
         } else if (threadCategories.includes(option)) {
-            url = "http://localhost:3000/threads/category/" + convertToSlug(option);
+            url = `${backendUrl}/threads/category/` + convertToSlug(option);
         } else {
-            url = "http://localhost:3000/threads";
+            url = `${backendUrl}/threads`;
         }
         const response = await fetch(url);
         if (!response.ok) {

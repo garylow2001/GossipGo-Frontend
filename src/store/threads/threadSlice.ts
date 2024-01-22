@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createThreadLike, deleteThreadLike } from './threadLikeSlice';
+import { backendUrl } from '../../utils/utils';
 
 export interface Thread {
     ID: number;
@@ -126,7 +127,7 @@ const threadSlice = createSlice({
 export const fetchThread = createAsyncThunk(
     "thread/fetchThread",
     async (threadId: string, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadId}`);
+        const response = await fetch(`${backendUrl}/threads/${threadId}`);
 
         if (!response.ok) {
             const errorResponse = await response.json();
@@ -141,7 +142,7 @@ export const fetchThread = createAsyncThunk(
 export const createThread = createAsyncThunk(
     "thread/createThread",
     async (payload: { title: string; body: string, category: string | null }, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/threads", {
+        const response = await fetch(`${backendUrl}/threads`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -163,7 +164,7 @@ export const createThread = createAsyncThunk(
 export const updateThread = createAsyncThunk(
     'thread/updateThread',
     async (thread: UpdateThreadPayload, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${thread.ID}`, {
+        const response = await fetch(`${backendUrl}/threads/${thread.ID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,7 +186,7 @@ export const updateThread = createAsyncThunk(
 export const deleteThread = createAsyncThunk(
     'thread/deleteThread',
     async (threadId: string, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadId}`, {
+        const response = await fetch(`${backendUrl}/threads/${threadId}`, {
             method: 'DELETE',
             credentials: 'include'
         });
