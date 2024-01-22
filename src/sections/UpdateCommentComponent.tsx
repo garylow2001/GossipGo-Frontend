@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import { useSelector } from 'react-redux'
 import CustomButton from '../components/CustomButton'
+import CustomTextArea from '../components/CustomTextArea'
 
 interface UpdateCommentComponentProps {
     comment: Comment
@@ -31,10 +32,13 @@ const UpdateCommentComponent: React.FC<UpdateCommentComponentProps> = ({ comment
             {loading && <p>Loading...</p>}
             {updateError && <p>Error updating comment: {updateError}</p>}
             <form onSubmit={handleSubmit} className='w-full p-2'>
-                <textarea
+                <CustomTextArea
+                    variant='default'
+                    size='default'
+                    rows={3}
+                    cols={50}
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded-md'
                 />
                 <div className="flex mt-2 gap-2">
                     <CustomButton type="submit">Save</CustomButton>
