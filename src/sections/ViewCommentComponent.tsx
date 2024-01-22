@@ -29,7 +29,7 @@ const ViewCommentComponent: React.FC<ViewCommentComponentProps> = ({ comment, se
     return (
         <div className="bg-white p-4 rounded-lg shadow-md mb-4 flex flex-col gap-4">
             {loading && <p>Loading...</p>}
-            {deleteError && <p>{deleteError}</p>}
+            {deleteError && <p className='text-secondary-alert'>{deleteError}</p>}
             <div className="flex items-center justify-between mb-2">
                 <div className='flex flex-row items-center'>
                     <img

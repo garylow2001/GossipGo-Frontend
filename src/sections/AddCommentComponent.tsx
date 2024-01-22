@@ -14,6 +14,7 @@ interface AddCommentComponentProps {
 
 const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) => {
   const [comment, setComment] = useState('');
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const commentState = useSelector((state: RootState) => state.comment);
   const dispatch = useDispatch<AppDispatch>();
   const { loading, createError } = commentState;
@@ -35,8 +36,9 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
   return (
     <div className='flex flex-col items-center justify-center p-4'>
       <PageTitle>Add Comment</PageTitle>
+      {!isLoggedIn && <p className='text-secondary-alert'>Please log in to add a comment</p>}
       {loading && <p>Adding comment...</p>}
-      {createError && <p>Error adding comment: {createError}</p>}
+      {createError && <p className='text-secondary-alert'>Error adding comment: {createError}</p>}
       <CustomTextArea
         variant='default'
         size='half'

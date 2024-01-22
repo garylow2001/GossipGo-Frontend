@@ -52,8 +52,8 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
     return (
         <div className="bg-white p-4 shadow-md mb-4">
             {loading && <p>Loading...</p>}
-            {updateError && <p>Error updating thread: {updateError}</p>}
-            {!thread && <p>Thread not found</p>}
+            {updateError && <p className='text-secondary-alert'>Error updating thread: {updateError}</p>}
+            {!thread && <p className='text-secondary-alert'>Thread not found</p>}
             {thread && (
                 <form onSubmit={handleSubmit} className='flex flex-col justify-between mb-2'>
                     <CustomLabel variant='default'>Title:</CustomLabel>

@@ -37,9 +37,9 @@ const ViewThreadComponent: React.FC<ViewThreadComponentProps> = ({ currentUser, 
   return (
     <div className="bg-white p-4 shadow-md mb-4">
       {loading && <p>Loading...</p>}
-      {fetchError && <p>Error fetching thread: {fetchError}</p>}
-      {deleteError && <p>Error deleting thread: {deleteError}</p>}
-      {!thread && <p>Thread not found</p>}
+      {fetchError && <p className='text-secondary-alert'>Error fetching thread: {fetchError}</p>}
+      {deleteError && <p className='text-secondary-alert'>Error deleting thread: {deleteError}</p>}
+      {!thread && <p className='text-secondary-alert'>Thread not found</p>}
       {thread && (
         <div>
           <div className="flex items-center justify-between mb-2">

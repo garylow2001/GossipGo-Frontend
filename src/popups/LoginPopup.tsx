@@ -45,7 +45,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onRequestClose, onToggleForm })
         <div className='flex flex-col w-full h-full items-center justify-between py-5'>
             <PageTitle>Login</PageTitle>
             {loading && <p>Loading...</p>}
-            {loginError && <p>{loginError}</p>}
+            {loginError && <p className='text-secondary-alert'>{loginError}</p>}
             <form onSubmit={handleSubmit} className='space-y-4 w-full mb-5'>
                 <CustomLabel variant='default'>Username:</CustomLabel>
                 <CustomTextArea

@@ -20,7 +20,7 @@ const ThreadListView: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-top h-full w-full'>
       {threadList.loading && <p>Loading threads...</p>}
-      {threadList.error && <p>Error fetching threads: {threadList.error}</p>}
+      {threadList.error && <p className='text-secondary-alert'>Error fetching threads: {threadList.error}</p>}
       {threadList.threads.length === 0 && <p>No threads yet! Be the first to start a discussion!</p>}
       {threadList.threads.length > 0 && (
         <ul className='mt-4 w-full'>

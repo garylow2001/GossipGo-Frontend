@@ -44,7 +44,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
         <div className='flex flex-col w-full h-full items-center justify-between py-5'>
             <PageTitle>Sign Up</PageTitle>
             {loading && <p>Loading...</p>}
-            {signupError && <p>{signupError}</p>}
+            {signupError && <p className='text-secondary-alert'>{signupError}</p>}
             <form onSubmit={handleSubmit} className='space-y-4 w-full mb-5'>
                 <CustomLabel variant='default'>Username:</CustomLabel>
                 <CustomTextArea

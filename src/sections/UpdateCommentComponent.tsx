@@ -30,7 +30,7 @@ const UpdateCommentComponent: React.FC<UpdateCommentComponentProps> = ({ comment
     return (
         <div className="bg-white p-4 rounded-lg shadow-md mb-4 w-full">
             {loading && <p>Loading...</p>}
-            {updateError && <p>Error updating comment: {updateError}</p>}
+            {updateError && <p className='text-secondary-alert'>Error updating comment: {updateError}</p>}
             <form onSubmit={handleSubmit} className='w-full p-2'>
                 <CustomTextArea
                     variant='default'
