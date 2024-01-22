@@ -24,7 +24,7 @@ const CommentList: React.FC<CommentListProps> = ({ threadId }) => {
         <div className='flex flex-col items-center justify-center p-4'>
             <PageTitle>Comments</PageTitle>
             {loading && <p>Loading comments...</p>}
-            {error && <p>Error fetching comments: {error}</p>}
+            {error && <p className='text-secondary-alert'>Error fetching comments: {error}</p>}
             {comments.length === 0 && <p>No comments yet! Be the first to share your thoughts!</p>}
             {comments.length > 0 && comments.map((comment) => (
                 <div key={comment.ID} className='w-full'>

@@ -36,8 +36,8 @@ const ThreadLikeComponent: React.FC<ThreadLikeComponentProps> = ({ threadID, lik
     return (
         <div>
             {loading && isFocused && <p>Loading...</p>}
-            {createError && isFocused && <p>{createError}</p>}
-            {deleteError && isFocused && <p>{deleteError}</p>}
+            {createError && isFocused && <p className='text-secondary-alert'>{createError}</p>}
+            {deleteError && isFocused && <p className='text-secondary-alert'>{deleteError}</p>}
             {(!isFocused || (!loading && !createError && !deleteError)) && <div className='flex flex-row items-center space-x-1'>
                 <div className='hover:cursor-pointer' onClick={handleToggleLike}>
                     {userHasLiked ? <FaHeart /> : <FaRegHeart />}

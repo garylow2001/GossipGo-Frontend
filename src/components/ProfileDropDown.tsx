@@ -45,8 +45,6 @@ const ProfileDropDown: React.FC<ProfileDropDownProps> = ({ setIsDropDownOpen, pa
             ref={dropDownRef}
         >
             <div className='flex flex-col' role='list'>
-                <ProfileDropDownElement label='Profile' onClick={() => { }} />
-                <ProfileDropDownElement label='Settings' onClick={() => { }} />
                 <ProfileDropDownElement label='Logout' onClick={handleLogout} />
             </div>
         </div>

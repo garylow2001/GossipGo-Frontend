@@ -17,6 +17,7 @@ const CreateThreadPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const error = useSelector((state: RootState) => state.thread.createError);
   const loading = useSelector((state: RootState) => state.thread.loading);
 
@@ -33,7 +34,8 @@ const CreateThreadPage: React.FC = () => {
     <MainLayout>
       <div className='flex flex-col items-center justify-top w-full h-full'>
         <PageTitle>Create New Thread</PageTitle>
-        {error && !loading && <p>{error}</p>}
+        {!isLoggedIn && <p className='text-secondary-alert'>Please log in to create a thread</p>}
+        {error && !loading && <p className='text-secondary-alert'>{error}</p>}
         {loading && !error && <p>Loading...</p>}
         <form onSubmit={handleCreateThread} className='space-y-4 w-full'>
           <CustomLabel variant='default'>Title:</CustomLabel>
