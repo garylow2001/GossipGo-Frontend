@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Comment, addComment, deleteComment, updateComment } from "./commentSlice";
 import { createCommentLike, deleteCommentLike } from "./commentLikeSlice";
+import { backendUrl } from "../../utils/utils";
 
 export interface CommentList extends Array<Comment> { }
 
@@ -84,7 +85,7 @@ const commentListSlice = createSlice({
 export const fetchComments = createAsyncThunk(
     'commentList/fetchComments',
     async (id: string, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
+        const response = await fetch(`${backendUrl}/threads/${id}/comments`, {
             method: 'GET',
         });
 

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ThreadLike } from "./threadSlice";
+import { backendUrl } from "../../utils/utils";
 
 interface ThreadLikeState {
     loading: boolean;
@@ -51,7 +52,7 @@ const threadLikeSlice = createSlice({
 export const createThreadLike = createAsyncThunk(
     'threadLike/createThreadLike',
     async (threadId: number, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadId}/like`, {
+        const response = await fetch(`${backendUrl}/threads/${threadId}/like`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -69,7 +70,7 @@ export const createThreadLike = createAsyncThunk(
 export const deleteThreadLike = createAsyncThunk(
     'threadLike/deleteThreadLike',
     async (threadId: number, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadId}/like`, {
+        const response = await fetch(`${backendUrl}/threads/${threadId}/like`, {
             method: 'DELETE',
             credentials: 'include',
         });
