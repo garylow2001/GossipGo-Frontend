@@ -21,11 +21,9 @@ const buttonStyles = cva(["hover:bg-secondary-hover, transition-colors"], {
 
 type ButtonProps = VariantProps<typeof buttonStyles> & ComponentProps<"button">
 
-const CustomButton = ({ variant, size, className, ...props }: ButtonProps) => {
+const CustomButton: React.FC<ButtonProps> = ({ variant, size, className, ...props }) => {
     return (
-        <button {...props} className={twMerge(buttonStyles({ variant, size }), className)}>
-
-        </button>
+        <button {...props} className={twMerge(buttonStyles({ variant, size }), className)} />
     )
 }
 

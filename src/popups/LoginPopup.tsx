@@ -4,6 +4,8 @@ import { AppDispatch, RootState } from '../store/store';
 import { login } from '../store/auth/authSlice';
 import CustomButton from '../components/CustomButton';
 import PageTitle from '../components/PageTitle';
+import CustomLabel from '../components/CustomLabel';
+import CustomTextArea from '../components/CustomTextArea';
 
 interface LoginFormData {
     username: string;
@@ -24,7 +26,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onRequestClose, onToggleForm })
     const auth = useSelector((state: RootState) => state.auth);
     const { loading, loginError } = auth;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -45,29 +47,27 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onRequestClose, onToggleForm })
             {loading && <p>Loading...</p>}
             {loginError && <p>{loginError}</p>}
             <form onSubmit={handleSubmit} className='space-y-4 w-full mb-5'>
-                <label>
-                    Username:
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    />
-                </label>
+                <CustomLabel variant='default'>Username:</CustomLabel>
+                <CustomTextArea
+                    variant='default'
+                    size='default'
+                    rows={1}
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
                 <br />
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    />
-                </label>
+                <CustomLabel variant='default'>Password:</CustomLabel>
+                <CustomTextArea
+                    variant='default'
+                    size='default'
+                    rows={1}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
                 <br />
                 <CustomButton type="submit">Login</CustomButton>
             </form>

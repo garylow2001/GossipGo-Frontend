@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { addComment } from '../store/comments/commentSlice';
 import CustomButton from '../components/CustomButton';
 import PageTitle from '../components/PageTitle';
+import CustomTextArea from '../components/CustomTextArea';
 
 // TODO: should not submit empty comment
 
@@ -36,14 +37,15 @@ const AddCommentComponent: React.FC<AddCommentComponentProps> = ({ threadId }) =
       <PageTitle>Add Comment</PageTitle>
       {loading && <p>Adding comment...</p>}
       {createError && <p>Error adding comment: {createError}</p>}
-      <textarea
+      <CustomTextArea
+        variant='default'
+        size='half'
+        placeholder='Type your comment here...'
         rows={4}
         cols={50}
-        placeholder="Type your comment here..."
         value={comment}
         onChange={handleCommentChange}
-        className='w-3/4 p-2 border rounded-md'
-      ></textarea>
+      />
       <br />
       <CustomButton onClick={handleCommentSubmit}> Add Comment </CustomButton>
     </div>

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import CustomButton from '../components/CustomButton'
 import CategoryDropDown from '../components/CategoryDropDown'
+import CustomLabel from '../components/CustomLabel'
+import CustomTextArea from '../components/CustomTextArea'
 
 // TODO: Block out the save CustomButton if no changes have been made
 
@@ -54,16 +56,16 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
             {!thread && <p>Thread not found</p>}
             {thread && (
                 <form onSubmit={handleSubmit} className='flex flex-col justify-between mb-2'>
-                    <label className='mb-2'>
-                        Title:
-                        <input type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-md p-2 w-full mt-1"
-                        />
-                    </label>
-                    <label className='block text-sm font-medium'>Category:</label>
+                    <CustomLabel variant='default'>Title:</CustomLabel>
+                    <CustomTextArea
+                        variant='default'
+                        size='default'
+                        value={formData.title}
+                        onChange={handleChange}
+                        rows={1}
+                        style={{ resize: 'vertical' }}
+                    />
+                    <CustomLabel variant='default'>Category:</CustomLabel>
                     <div className="relative inline-block text-left">
                         <CategoryDropDown
                             name="category"
@@ -72,17 +74,15 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
                             setSelectedCategory={setSelectedCategory}
                         />
                     </div>
-                    <label>
-                        Body:
-                        <textarea
-                            name="body"
-                            value={formData.body}
-                            onChange={handleChange}
-                            rows={4}
-                            style={{ resize: 'vertical' }}
-                            className="border border-gray-300 rounded-md p-2 w-full mt-1"
-                        />
-                    </label>
+                    <CustomLabel variant='default'>Body:</CustomLabel>
+                    <CustomTextArea
+                        variant='default'
+                        size='default'
+                        value={formData.body}
+                        onChange={handleChange}
+                        rows={3}
+                        style={{ resize: 'vertical' }}
+                    />
                     <div className="flex gap-2 mt-4">
                         <CustomButton type="submit">Save</CustomButton>
                         <CustomButton variant="plain" onClick={() => setIsEditing(false)}>Cancel</CustomButton>

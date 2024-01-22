@@ -8,6 +8,8 @@ import CustomButton from '../components/CustomButton';
 import MainLayout from '../layouts/MainLayout';
 import PageTitle from '../components/PageTitle';
 import CategoryDropDown from '../components/CategoryDropDown';
+import CustomTextArea from '../components/CustomTextArea';
+import CustomLabel from '../components/CustomLabel';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -34,22 +36,25 @@ const CreateThreadPage: React.FC = () => {
         {error && !loading && <p>{error}</p>}
         {loading && !error && <p>Loading...</p>}
         <form onSubmit={handleCreateThread} className='space-y-4 w-full'>
-          <label className='block text-sm font-medium'>Title:</label>
-          <input
-            type="text"
+          <CustomLabel variant='default'>Title:</CustomLabel>
+          <CustomTextArea
+            variant='default'
+            size='default'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+            rows={1}
+            style={{ resize: 'vertical' }}
           />
-          <label className='block text-sm font-medium'>Category:</label>
+          <CustomLabel variant='default'>Category:</CustomLabel>
           <CategoryDropDown selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-          <label className='block text-sm font-medium'>Body:</label>
-          <textarea
+          <CustomLabel variant='default'>Body:</CustomLabel>
+          <CustomTextArea
+            variant='default'
+            size='default'
             value={body}
             onChange={(e) => setBody(e.target.value)}
             rows={3}
             style={{ resize: 'vertical' }}
-            className='mt-1 p-2 border border-gray-300 rounded-md w-full'
           />
           <CustomButton type="submit">
             Create Thread
