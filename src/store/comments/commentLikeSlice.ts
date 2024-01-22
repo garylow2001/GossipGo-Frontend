@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CommentLike } from "./commentSlice";
+import { backendUrl } from "../../utils/utils";
 
 interface CommentLikeState {
     threadID: number | null;
@@ -56,7 +57,7 @@ const commentLikeSlice = createSlice({
 export const createCommentLike = createAsyncThunk(
     'commentLike/createCommentLike',
     async ({ threadID, commentID }: { threadID: number, commentID: number }, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}/like`, {
+        const response = await fetch(`${backendUrl}/threads/${threadID}/comments/${commentID}/like`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -74,7 +75,7 @@ export const createCommentLike = createAsyncThunk(
 export const deleteCommentLike = createAsyncThunk(
     'commentLike/deleteCommentLike',
     async ({ threadID, commentID }: { threadID: number, commentID: number }, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}/like`, {
+        const response = await fetch(`${backendUrl}/threads/${threadID}/comments/${commentID}/like`, {
             method: 'DELETE',
             credentials: 'include',
         });

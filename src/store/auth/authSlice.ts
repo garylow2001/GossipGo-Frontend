@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { User, getCurrentUser } from "../user/userSlice";
+import { backendUrl } from "../../utils/utils";
 
 interface AuthState {
     loading: boolean;
@@ -64,7 +65,7 @@ const authSlice = createSlice({
 export const login = createAsyncThunk(
     "auth/login",
     async (data: { username: string; password: string; }, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/users/login", {
+        const response = await fetch(`${backendUrl}/users/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -86,7 +87,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk(
     "auth/logout",
     async (_, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/users/logout", {
+        const response = await fetch(`${backendUrl}/users/logout`, {
             method: "POST",
             credentials: 'include',
         });
@@ -104,7 +105,7 @@ export const logout = createAsyncThunk(
 export const signup = createAsyncThunk(
     "auth/signup",
     async (data: { username: string; password: string; }, thunkAPI) => {
-        const response = await fetch("http://localhost:3000/users/signup", {
+        const response = await fetch(`${backendUrl}/users/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

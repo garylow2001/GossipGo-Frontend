@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createCommentLike, deleteCommentLike } from './commentLikeSlice';
+import { backendUrl } from '../../utils/utils';
 
 export interface Comment {
     ID: number;
@@ -113,7 +114,7 @@ const commentSlice = createSlice({
 export const addComment = createAsyncThunk(
     'comment/addComment',
     async ({ id, text }: { id: string, text: string }, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${id}/comments`, {
+        const response = await fetch(`${backendUrl}/threads/${id}/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ export const addComment = createAsyncThunk(
 export const updateComment = createAsyncThunk(
     'comment/updateComment',
     async ({ threadID, commentID, text }: { threadID: string, commentID: string, text: string }, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}`, {
+        const response = await fetch(`${backendUrl}/threads/${threadID}/comments/${commentID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -157,7 +158,7 @@ export const updateComment = createAsyncThunk(
 export const deleteComment = createAsyncThunk(
     'comment/deleteComment',
     async ({ threadID, commentID }: { threadID: string, commentID: string }, thunkAPI) => {
-        const response = await fetch(`http://localhost:3000/threads/${threadID}/comments/${commentID}`, {
+        const response = await fetch(`${backendUrl}/threads/${threadID}/comments/${commentID}`, {
             method: 'DELETE',
             credentials: 'include',
         });

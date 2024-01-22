@@ -1,3 +1,5 @@
+export const backendUrl = 'https://gossipgo-backend.onrender.com';
+
 export const threadCategories = ["Academic", "News", "Technology", "Entertainment", "Hot Takes"]
 
 export function formatTime(timeCreatedAt: string, timeUpdatedAt: string) {
