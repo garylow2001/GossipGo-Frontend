@@ -6,6 +6,7 @@ import CustomButton from '../components/CustomButton'
 import CategoryDropDown from '../components/CategoryDropDown'
 import CustomLabel from '../components/CustomLabel'
 import CustomTextArea from '../components/CustomTextArea'
+import CustomInputText from '../components/CustomInputText'
 
 // TODO: Block out the save CustomButton if no changes have been made
 
@@ -57,13 +58,10 @@ const UpdateThreadComponent: React.FC<UpdateThreadComponentProps> = ({ setIsEdit
             {thread && (
                 <form onSubmit={handleSubmit} className='flex flex-col justify-between mb-2'>
                     <CustomLabel variant='default'>Title:</CustomLabel>
-                    <CustomTextArea
+                    <CustomInputText
                         variant='default'
-                        size='default'
                         value={formData.title}
                         onChange={handleChange}
-                        rows={1}
-                        style={{ resize: 'vertical' }}
                     />
                     <CustomLabel variant='default'>Category:</CustomLabel>
                     <div className="relative inline-block text-left">

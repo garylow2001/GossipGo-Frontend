@@ -10,6 +10,7 @@ import PageTitle from '../components/PageTitle';
 import CategoryDropDown from '../components/CategoryDropDown';
 import CustomTextArea from '../components/CustomTextArea';
 import CustomLabel from '../components/CustomLabel';
+import CustomInputText from '../components/CustomInputText';
 
 const CreateThreadPage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -39,12 +40,10 @@ const CreateThreadPage: React.FC = () => {
         {loading && !error && <p>Loading...</p>}
         <form onSubmit={handleCreateThread} className='space-y-4 w-full'>
           <CustomLabel variant='default'>Title:</CustomLabel>
-          <CustomTextArea
+          <CustomInputText
             variant='default'
-            size='default'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            rows={1}
             style={{ resize: 'vertical' }}
           />
           <CustomLabel variant='default'>Category:</CustomLabel>
