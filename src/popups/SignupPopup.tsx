@@ -5,7 +5,7 @@ import { signup } from '../store/auth/authSlice';
 import CustomButton from '../components/CustomButton';
 import PageTitle from '../components/PageTitle';
 import CustomLabel from '../components/CustomLabel';
-import CustomTextArea from '../components/CustomTextArea';
+import CustomInputText from '../components/CustomInputText';
 
 interface SignupPopupProps {
     onToggleForm: () => void;
@@ -25,7 +25,7 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
     const auth = useSelector((state: RootState) => state.auth);
     const { loading, signupError } = auth;
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -47,10 +47,8 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
             {signupError && <p className='text-secondary-alert'>{signupError}</p>}
             <form onSubmit={handleSubmit} className='space-y-4 w-full mb-5'>
                 <CustomLabel variant='default'>Username:</CustomLabel>
-                <CustomTextArea
+                <CustomInputText
                     variant='default'
-                    size='default'
-                    rows={1}
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
@@ -58,10 +56,8 @@ const SignupPopup: React.FC<SignupPopupProps> = ({ onToggleForm }) => {
                 />
                 <br />
                 <CustomLabel variant='default'>Password:</CustomLabel>
-                <CustomTextArea
+                <CustomInputText
                     variant='default'
-                    size='default'
-                    rows={1}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
