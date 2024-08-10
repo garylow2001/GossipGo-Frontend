@@ -2,6 +2,8 @@
 
 [Gossip:Go](https://gossipgo.netlify.app/) is a web forum with the theme “Connecting Conversations, Spreading Stories”. It supports user authenticated login and registration, CRUD features for threads and comments, likes, sorting and filtering by categories.
 
+Check out the backend repository [here](https://github.com/garylow2001/GossipGo-Backend).
+
 ## User Guide
 
 ### Main Page: 
